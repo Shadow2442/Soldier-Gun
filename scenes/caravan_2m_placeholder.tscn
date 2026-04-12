@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpry5672gbl74"]
+
+[ext_resource type="Script" path="res://scripts/mode_shell.gd" id="1_pfyg5"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay_test.tscn" id="2_hf3dv"]
+
+[node name="Caravan2Placeholder" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pfyg5")
+mode_name = "2 Minute Caravan"
+mode_subtitle = "Score attack placeholder"
+mission_blurb = "Short-burst route for aggressive scoring and fast restarts."
+gameplay_scene = ExtResource("2_hf3dv")
+
+[node name="Layer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="Layer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Layer/ViewportContainer"]
+size = Vector2i(320, 240)
+handle_input_locally = true
+render_target_update_mode = 4
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="ModeCard" type="PanelContainer" parent="Overlay"]
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 286.0
+offset_bottom = 104.0
+
+[node name="ModePad" type="MarginContainer" parent="Overlay/ModeCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="ModeStack" type="VBoxContainer" parent="Overlay/ModeCard/ModePad"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ModeTitle" type="Label" parent="Overlay/ModeCard/ModePad/ModeStack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.976471, 0.984314, 1, 1)
+text = "2 Minute Caravan"
+
+[node name="ModeSubtitle" type="Label" parent="Overlay/ModeCard/ModePad/ModeStack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.968627, 0.827451, 0.356863, 1)
+text = "Score attack placeholder"
+
+[node name="ModeBlurb" type="Label" parent="Overlay/ModeCard/ModePad/ModeStack"]
+layout_mode = 2
+autowrap_mode = 2
+theme_override_colors/font_color = Color(0.756863, 0.827451, 0.921569, 1)
+text = "Short-burst route for aggressive scoring and fast restarts."

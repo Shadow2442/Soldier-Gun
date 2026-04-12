@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo1eh2xokxnlh"]
+
+[ext_resource type="Script" path="res://scripts/player_bullet.gd" id="1_p6epl"]
+
+[node name="PlayerBullet" type="Area2D"]
+script = ExtResource("1_p6epl")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

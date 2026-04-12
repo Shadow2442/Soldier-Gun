@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "6502-disasm": "^0.0.6"
+  }
+}

@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6h6ghkki0e4g"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_f4q3m"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_xg7mi"]
+
+[node name="GameplayTest" type="Node2D"]
+script = ExtResource("1_f4q3m")
+
+[node name="Starfield" type="ColorRect" parent="."]
+offset_right = 320.0
+offset_bottom = 240.0
+color = Color(0.0313726, 0.0784314, 0.121569, 1)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_xg7mi")]
+position = Vector2(160, 198)
+
+[node name="Title" type="Label" parent="HUD"]
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 33.0
+theme_override_colors/font_color = Color(0.952941, 1, 0.415686, 1)
+text = "SOLDIER GUN"
+
+[node name="SubTitle" type="Label" parent="HUD"]
+offset_left = 12.0
+offset_top = 28.0
+offset_right = 271.0
+offset_bottom = 49.0
+theme_override_colors/font_color = Color(0.309804, 0.85098, 1, 1)
+text = "Combat test scene"
+
+[node name="Info" type="Label" parent="HUD"]
+offset_left = 12.0
+offset_top = 214.0
+offset_right = 278.0
+offset_bottom = 234.0
+theme_override_colors/font_color = Color(0.878431, 0.905882, 0.956863, 1)
+text = "WASD / left stick, J / A fire, K / B bomb"

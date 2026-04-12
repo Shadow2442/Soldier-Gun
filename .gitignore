@@ -1,0 +1,11 @@
+.godot/
+.import/
+.editorconfig
+export_presets.cfg
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+build/
+dist/
+node_modules/
