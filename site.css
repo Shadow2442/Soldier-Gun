@@ -538,6 +538,31 @@ h3,
   background: var(--panel-strong);
 }
 
+.timeline-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.timeline-date {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.timeline-phase {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.04);
+  color: #dce6fb;
+  font-family: "Oxanium", sans-serif;
+  font-size: 0.82rem;
+}
+
 .timeline-date {
   color: var(--gold);
   text-transform: uppercase;
