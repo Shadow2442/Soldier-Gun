@@ -490,6 +490,188 @@ h3,
   color: var(--muted);
 }
 
+.single-release-section {
+  padding-top: 26px;
+}
+
+.single-release-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.single-hero-card {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.single-cover-stage {
+  display: grid;
+  gap: 18px;
+}
+
+.single-variation-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.single-variation-header h3 {
+  margin: 6px 0 0;
+}
+
+.single-cover-primary {
+  margin: 0;
+}
+
+.single-cover-primary img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.26);
+}
+
+.single-cover-variants {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.single-cover-variants .gallery-item {
+  margin: 0;
+}
+
+.single-cover-variants .gallery-item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.26);
+  padding: 8px;
+}
+
+.single-cover-variants .gallery-item figcaption {
+  padding: 12px 14px 14px;
+  font-size: 0.92rem;
+}
+
+.single-copy {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.single-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.single-copy h3,
+.single-player-card h3,
+.single-release-notes h3 {
+  margin: 0;
+}
+
+.single-subtitle {
+  margin: -8px 0 0;
+  color: #ffb0c2;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.single-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.single-free-note {
+  margin: -2px 0 0;
+  color: #d7e6f7;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.single-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  text-decoration: none;
+  font-family: "Oxanium", sans-serif;
+}
+
+.single-action.primary {
+  background: linear-gradient(90deg, rgba(255,146,68,0.42), rgba(255,95,102,0.34));
+  border-color: rgba(255,210,160,0.32);
+}
+
+.single-player-card,
+.single-release-notes {
+  display: grid;
+  gap: 18px;
+}
+
+.single-player-intro,
+.single-closing {
+  margin: 0;
+}
+
+.single-player-card {
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.single-track-list {
+  display: grid;
+  gap: 16px;
+  max-width: 560px;
+}
+
+.single-track {
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.04);
+  display: grid;
+  gap: 12px;
+}
+
+.single-track-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.single-track-header span {
+  color: var(--muted);
+}
+
+.single-track audio {
+  width: 100%;
+}
+
+.single-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.single-columns h4 {
+  margin: 0 0 12px;
+}
+
 .lightbox {
   position: fixed;
   inset: 0;
@@ -542,6 +724,43 @@ h3,
 
 .track-card .track-list strong {
   font-size: 1.04rem;
+}
+
+.audio-design-block {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: grid;
+  gap: 14px;
+}
+
+.audio-design-block h3 {
+  margin: 0;
+}
+
+.audio-design-intro {
+  margin-bottom: 0;
+}
+
+.audio-influence-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.audio-influence-list li {
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  color: #dbe5f5;
+}
+
+.track-card-intro {
+  margin-top: 0;
+  color: var(--muted);
 }
 
 .track-controls {
@@ -708,6 +927,8 @@ h3,
 @media (max-width: 1180px) {
   .hero-grid,
   .split-grid,
+  .single-hero-card,
+  .single-columns,
   .stack-grid,
   .roadmap-grid,
   .forms-grid {
@@ -733,6 +954,8 @@ h3,
   .hero-stats,
   .hero-grid,
   .split-grid,
+  .single-hero-card,
+  .single-columns,
   .forms-grid,
   .stack-grid,
   .roadmap-grid,
@@ -747,5 +970,9 @@ h3,
   .track-card .track-list li,
   .route-lines div {
     display: block;
+  }
+
+  .single-cover-variants {
+    grid-template-columns: 1fr;
   }
 }
