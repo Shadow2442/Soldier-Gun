@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://drt1mcnmk6nh1"]
+[gd_scene load_steps=18 format=3 uid="uid://drt1mcnmk6nh1"]
 
 [ext_resource type="Script" path="res://scripts/app_root.gd" id="1_2fwq2"]
 [ext_resource type="Script" path="res://scripts/scanline_overlay.gd" id="2_7wyfs"]
@@ -7,6 +7,145 @@
 [ext_resource type="PackedScene" path="res://scenes/caravan_2m_placeholder.tscn" id="5_0knsa"]
 [ext_resource type="PackedScene" path="res://scenes/caravan_5m_placeholder.tscn" id="6_oln5w"]
 [ext_resource type="Script" path="res://scripts/title_theme_player.gd" id="7_7v1d2"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_card"]
+bg_color = Color(0.0156863, 0.027451, 0.054902, 0.18)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.447059, 0.686275, 1, 0.12)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.22)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_normal"]
+bg_color = Color(0.92549, 0.47451, 0.121569, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.905882, 0.611765, 0.92)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.831373, 0.333333, 0.0588235, 0.35)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_hover"]
+bg_color = Color(1, 0.596078, 0.156863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.956863, 0.768627, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.917647, 0.431373, 0.113725, 0.42)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_story_normal"]
+bg_color = Color(0.0823529, 0.14902, 0.266667, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.52549, 0.788235, 1, 0.72)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.0392157, 0.164706, 0.301961, 0.26)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_story_hover"]
+bg_color = Color(0.121569, 0.219608, 0.372549, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.733333, 0.901961, 1, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.0823529, 0.278431, 0.458824, 0.32)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_story_panel"]
+bg_color = Color(0.0352941, 0.0509804, 0.0823529, 0.84)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.458824, 0.752941, 1, 0.28)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.0196078, 0.0862745, 0.188235, 0.38)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_story_directive"]
+bg_color = Color(0.054902, 0.0823529, 0.129412, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.976471, 0.788235, 0.384314, 0.32)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.22)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_story_display"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0, 0, 0, 0)
+shadow_size = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_story_module"]
+bg_color = Color(0.0823529, 0.0980392, 0.117647, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.415686, 0.494118, 0.517647, 0.42)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_story_rail"]
+bg_color = Color(0.0862745, 0.101961, 0.117647, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.494118, 0.545098, 0.545098, 0.36)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 2
 
 [node name="AppRoot" type="Control"]
 layout_mode = 3
@@ -177,87 +316,216 @@ custom_minimum_size = Vector2(240, 52)
 layout_mode = 2
 text = "Enter Command Deck"
 
-[node name="IntroDock" type="MarginContainer" parent="Screens/CoverScreen"]
+[node name="ActionDock" type="MarginContainer" parent="Screens/CoverScreen"]
 layout_mode = 1
-anchors_preset = 9
+anchors_preset = 12
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -448.0
-offset_top = 42.0
-offset_right = -32.0
-offset_bottom = 386.0
+anchor_bottom = 1.0
+offset_left = -302.0
+offset_top = -176.0
+offset_right = -24.0
+offset_bottom = -130.0
 grow_horizontal = 0
+grow_vertical = 0
+
+[node name="ActionCard" type="PanelContainer" parent="Screens/CoverScreen/ActionDock"]
+layout_mode = 2
+self_modulate = Color(1, 1, 1, 0.92)
+theme_override_styles/panel = SubResource("StyleBoxFlat_action_card")
+
+[node name="ActionPad" type="MarginContainer" parent="Screens/CoverScreen/ActionDock/ActionCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="ActionButtons" type="HBoxContainer" parent="Screens/CoverScreen/ActionDock/ActionCard/ActionPad"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LaunchButton" type="Button" parent="Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.992157, 0.972549, 0.941176, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_start_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_start_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_start_hover")
+text = "Start"
+
+[node name="StoryButton" type="Button" parent="Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons"]
+custom_minimum_size = Vector2(92, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.901961, 0.952941, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_story_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_story_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_story_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_story_hover")
+text = "Story"
+
+[node name="StoryBackdrop" type="ColorRect" parent="Screens/CoverScreen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0117647, 0.0196078, 0.0392157, 0)
+
+[node name="StoryPopup" type="Control" parent="Screens/CoverScreen"]
+visible = false
+layout_mode = 0
+self_modulate = Color(1, 1, 1, 0)
+mouse_filter = 1
+
+[node name="StoryTVFrame" type="TextureRect" parent="Screens/CoverScreen"]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+z_index = 20
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StoryDisplay" type="Panel" parent="Screens/CoverScreen/StoryPopup"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 141.0
+offset_right = 1336.0
+offset_bottom = 879.0
+mouse_filter = 2
+clip_contents = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_story_display")
+
+[node name="StoryGlassTint" type="ColorRect" parent="Screens/CoverScreen/StoryPopup/StoryDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0352941, 0.0666667, 0.0627451, 0.16)
+
+[node name="StoryGlassSheen" type="ColorRect" parent="Screens/CoverScreen/StoryPopup/StoryDisplay"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 18.0
+offset_right = 274.0
+offset_bottom = 422.0
+mouse_filter = 2
+color = Color(0.866667, 0.972549, 1, 0.035)
+
+[node name="StoryPopupPad" type="MarginContainer" parent="Screens/CoverScreen/StoryPopup/StoryDisplay"]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 119.0
+offset_top = 82.0
+offset_right = 1017.0
+offset_bottom = 661.0
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="IntroStack" type="VBoxContainer" parent="Screens/CoverScreen/IntroDock"]
-layout_mode = 2
-theme_override_constants/separation = 12
-alignment = 1
+[node name="StoryShimmer" type="ColorRect" parent="Screens/CoverScreen/StoryPopup"]
+layout_mode = 0
+offset_left = -180.0
+offset_top = 0.0
+offset_right = -60.0
+offset_bottom = 520.0
+mouse_filter = 2
+color = Color(0.4, 0.85, 1, 0.06)
 
-[node name="StoryCard" type="PanelContainer" parent="Screens/CoverScreen/IntroDock/IntroStack"]
-custom_minimum_size = Vector2(416, 0)
-layout_mode = 2
-self_modulate = Color(1, 1, 1, 0.9)
-
-[node name="StoryPad" type="MarginContainer" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard"]
-layout_mode = 2
-theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 16
-
-[node name="StoryLayout" type="VBoxContainer" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad"]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="StoryContent" type="VBoxContainer" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="IntroEyebrow" type="Label" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.992157, 0.847059, 0.431373, 1)
-text = "OPERATION LOG // YEAR 2189"
-
-[node name="IntroTitle" type="Label" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.976471, 0.984314, 1, 1)
-text = "The Frontier Has Broken Open"
-
-[node name="IntroBody" type="Label" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent"]
-custom_minimum_size = Vector2(0, 120)
-layout_mode = 2
-autowrap_mode = 2
-theme_override_colors/font_color = Color(0.827451, 0.878431, 0.956863, 1)
-text = "Three years after the Sol Border Campaign, a new enemy armada rises beyond the cloudline cities of Arc Vale. Fortress carriers descend from orbit. Defense grids fail in silence. Only the Soldier Gun squadron can cut a flight path into the storm."
-
-[node name="IntroFlavor" type="Label" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent"]
-layout_mode = 2
-autowrap_mode = 2
-theme_override_colors/font_color = Color(0.992157, 0.847059, 0.431373, 1)
-text = "Scramble protocol: one ship, one escort wing, one final breach route."
-
-[node name="ActionRow" type="MarginContainer" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout"]
-layout_mode = 2
-
-[node name="LaunchGlow" type="ColorRect" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/ActionRow"]
-custom_minimum_size = Vector2(0, 58)
-layout_mode = 2
-color = Color(0.313726, 0.705882, 1, 0.16)
-
-[node name="LaunchButton" type="Button" parent="Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/ActionRow/LaunchGlow"]
+[node name="StoryScanlines" type="Control" parent="Screens/CoverScreen/StoryPopup/StoryDisplay"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 7.0
-offset_right = -8.0
-offset_bottom = -7.0
-text = "Enter Command Deck"
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_7wyfs")
+strength = 0.08
+
+[node name="StoryPopupStack" type="VBoxContainer" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="StoryHeaderRow" type="HBoxContainer" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="StoryEyebrow" type="Label" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryHeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.513726, 0.87451, 1, 1)
+text = "STORY MODE // DISPLAY LINK"
+clip_text = true
+
+[node name="StoryTitle" type="Label" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.976471, 0.984314, 1, 1)
+text = "ASTRAEA PRIME // FRONTIER COLLAPSE"
+autowrap_mode = 3
+
+[node name="StoryScroll" type="ScrollContainer" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack"]
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="StoryScrollPad" type="MarginContainer" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="StoryScrollContent" type="VBoxContainer" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll/StoryScrollPad"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 0.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="StoryRichText" type="RichTextLabel" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll/StoryScrollPad/StoryScrollContent"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+selection_enabled = false
+autowrap_mode = 3
+
+[node name="StoryFooterLabel" type="Label" parent="Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack"]
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.960784, 0.733333, 0.384314, 0.92)
+text = "VERSION 1 // TV SHELL ONLINE"
 
 [node name="MusicDock" type="MarginContainer" parent="Screens/CoverScreen"]
 layout_mode = 1

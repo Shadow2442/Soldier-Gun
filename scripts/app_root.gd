@@ -1,4 +1,4 @@
-extends Control
+﻿extends Control
 
 @export var gameplay_scene: PackedScene
 @export var arcade_scene: PackedScene
@@ -16,6 +16,18 @@ const COVER_TRACK_GAP_SECONDS := 10.0
 const INTRO_CARD_DURATION := 1.45
 const INTRO_TEXT_DURATION := 1.1
 const INTRO_BUTTON_DURATION := 0.9
+const COVER_BUTTON_REVEAL_DELAY := 10.0
+const STORY_SCROLL_SPEED := 21.0
+const STORY_AUTO_SCROLL_DELAY := 1.35
+const STORY_MANUAL_SCROLL_PAUSE := 3.2
+const STORY_OVERLAY_OPEN_DURATION := 0.24
+const STORY_OVERLAY_CLOSE_DURATION := 0.18
+const STORY_TV_ASPECT := 1536.0 / 1024.0
+const STORY_POPUP_SCALE := 0.6
+const STORY_POPUP_SIZE := Vector2(1536.0, 1024.0) * STORY_POPUP_SCALE
+const STORY_POPUP_Y_OFFSET := -36.0
+const STORY_DISPLAY_RECT := Rect2(200.0, 70.0, 1136.0, 785.0)
+const STORY_TEXT_SAFE_RECT := Rect2(51.0, 195.0, 1034.0, 523.0)
 const GOOD_ART_DIR := "res://artwork/title/good"
 const EVIL_ART_DIR := "res://artwork/title/evil"
 const FIXED_OPENING_ART_PATH := "res://artwork/title/good/title_good_01.png"
@@ -78,6 +90,7 @@ var _cover_phase := 0.0
 var _menu_phase := 0.0
 var _cover_intro_timer := 0.0
 var _cover_track_timer := 0.0
+var _cover_button_timer := 0.0
 var _cover_music_started := false
 var _cover_manual_stopped := false
 var _current_track_duration := 38.0
@@ -87,6 +100,17 @@ var _good_track_queue: Array = []
 var _evil_track_queue: Array = []
 var _cover_history: Array = []
 var _cover_history_index := -1
+var _cover_actions_revealed := false
+var _story_overlay_target_visible := false
+var _story_overlay_progress := 0.0
+var _story_scroll_target := 0.0
+var _story_scroll_current := 0.0
+var _story_auto_scroll_delay_timer := 0.0
+var _story_manual_pause_timer := 0.0
+var _story_internal_scroll_update := false
+var _story_flicker_timer := 0.0
+var _story_flicker_strength := 0.0
+var _story_shimmer_phase := 0.0
 var _restore_window_pos := Vector2i(120, 90)
 var _restore_window_size := Vector2i(1280, 960)
 var _normal_window_pos := Vector2i(120, 90)
@@ -104,6 +128,8 @@ func _ready() -> void:
 	_update_screen_visibility()
 	_update_top_bar_layout()
 	_center_settings_panel()
+	_setup_story_overlay()
+	_position_story_popup()
 	_apply_scanlines()
 	_reset_cover_intro()
 	_apply_music_volume($SettingsPanel/SettingsPad/SettingsStack/MusicSlider.value)
@@ -117,6 +143,7 @@ func _process(delta: float) -> void:
 	_menu_phase += delta
 	if _current_screen == AppScreen.COVER:
 		_cover_intro_timer = minf(_cover_intro_timer + delta, COVER_INTRO_FADE_SECONDS)
+		_cover_button_timer += delta
 		if not _cover_manual_stopped:
 			_cover_track_timer += delta
 		if not _cover_manual_stopped and not _cover_music_started and _cover_intro_timer >= COVER_MUSIC_DELAY:
@@ -126,7 +153,9 @@ func _process(delta: float) -> void:
 		_refresh_track_box()
 		if not _cover_manual_stopped and _cover_track_timer >= _current_track_duration + COVER_TRACK_GAP_SECONDS:
 			_restart_cover_cycle()
-	_animate_frontend()
+		_update_story_auto_scroll(delta)
+	_animate_cover_ui()
+	_update_story_overlay_visuals(delta)
 	_update_top_bar_target()
 	$TopBar.position.y = lerpf($TopBar.position.y, _top_bar_target_y, minf(1.0, delta * 12.0))
 	queue_redraw()
@@ -136,6 +165,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		_update_top_bar_layout()
 		_center_settings_panel()
+		_position_story_popup()
 
 
 func _draw() -> void:
@@ -156,6 +186,15 @@ func _input(event: InputEvent) -> void:
 			_apply_resize()
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not _story_overlay_target_visible and _story_overlay_progress <= 0.0:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		_toggle_story_popup(false)
+		get_viewport().set_input_as_handled()
+		return
+
+
 func _randomize_shell() -> void:
 	randomize()
 	_stars.clear()
@@ -172,7 +211,8 @@ func _randomize_shell() -> void:
 
 func _wire_ui() -> void:
 	$TopBar.gui_input.connect(_handle_top_bar_input)
-	$Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/ActionRow/LaunchGlow/LaunchButton.pressed.connect(_show_menu)
+	$Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons/LaunchButton.pressed.connect(_show_menu)
+	$Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons/StoryButton.pressed.connect(_toggle_story_popup.bind(true))
 	$Screens/MenuScreen/MenuCenter/MenuStack/StartGameButton.pressed.connect(func(): _open_mode_scene(arcade_scene, "Arcade Mission"))
 	$Screens/MenuScreen/MenuCenter/MenuStack/Caravan2Button.pressed.connect(func(): _open_mode_scene(caravan_2_scene, "2 Minute Caravan"))
 	$Screens/MenuScreen/MenuCenter/MenuStack/Caravan5Button.pressed.connect(func(): _open_mode_scene(caravan_5_scene, "5 Minute Caravan"))
@@ -218,9 +258,8 @@ func _apply_ui_tuning() -> void:
 		button.custom_minimum_size = Vector2(0, 22)
 
 	for label: Label in [
-		$Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroEyebrow,
-		$Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroBody,
-		$Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroFlavor,
+		$Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryHeaderRow/StoryEyebrow,
+		$Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryFooterLabel,
 		$Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/TrackRow/MusicHeader/MusicNotes,
 		$Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/TrackRow/TrackName,
 		$Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/TrackMeta,
@@ -232,13 +271,16 @@ func _apply_ui_tuning() -> void:
 	]:
 		_apply_font_size(label, 12)
 
-	_apply_font_size($Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroTitle, 24)
+	_apply_font_size($Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryTitle, 24)
+	$Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll/StoryScrollPad/StoryScrollContent/StoryRichText.add_theme_font_size_override("normal_font_size", 16)
+	$Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll/StoryScrollPad/StoryScrollContent/StoryRichText.add_theme_constant_override("line_separation", 8)
 	_apply_font_size($Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/TrackRow/MusicHeader/MusicTitle, 11)
 	_apply_font_size($Screens/MenuScreen/MenuCenter/MenuStack/MenuBanner/MenuPad/MenuText/MenuTitle, 24)
 	_apply_font_size($SettingsPanel/SettingsPad/SettingsStack/SettingsTitle, 22)
 
 	for button: Button in [
-		$Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/ActionRow/LaunchGlow/LaunchButton,
+		$Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons/StoryButton,
+		$Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons/LaunchButton,
 		$Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/MusicControls/PrevTrackButton,
 		$Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/MusicControls/PlayStopButton,
 		$Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/MusicControls/NextTrackButton,
@@ -281,6 +323,10 @@ func _apply_font_size(control: Control, font_size: int) -> void:
 func _show_menu() -> void:
 	_current_screen = AppScreen.MENU
 	$SettingsPanel.visible = false
+	_story_overlay_target_visible = false
+	$Screens/CoverScreen/StoryBackdrop.hide()
+	$Screens/CoverScreen/StoryPopup.hide()
+	$Screens/CoverScreen/StoryTVFrame.hide()
 	_cover_track_timer = 0.0
 	_cover_manual_stopped = false
 	_update_screen_visibility()
@@ -419,6 +465,166 @@ func _center_settings_panel() -> void:
 	panel.size = target_size
 
 
+func _setup_story_overlay() -> void:
+	var popup: Control = $Screens/CoverScreen/StoryPopup
+	var frame: TextureRect = $Screens/CoverScreen/StoryTVFrame
+	var display: Panel = $Screens/CoverScreen/StoryPopup/StoryDisplay
+	var shimmer: ColorRect = $Screens/CoverScreen/StoryPopup/StoryShimmer
+	var tv_image := Image.load_from_file(ProjectSettings.globalize_path("res://artwork/Story Mode/TV.png"))
+	if not tv_image.is_empty():
+		frame.texture = ImageTexture.create_from_image(tv_image)
+	frame.show()
+	var rich_text: RichTextLabel = $Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll/StoryScrollPad/StoryScrollContent/StoryRichText
+	rich_text.text = _build_story_overlay_bbcode()
+	var scroll_bar: VScrollBar = $Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll.get_v_scroll_bar()
+	scroll_bar.custom_minimum_size.x = 10
+	scroll_bar.modulate = Color(0.58, 0.84, 1.0, 0.0)
+	if not scroll_bar.value_changed.is_connected(_on_story_scrollbar_value_changed):
+		scroll_bar.value_changed.connect(_on_story_scrollbar_value_changed)
+	$Screens/CoverScreen/StoryBackdrop.hide()
+	$Screens/CoverScreen/StoryPopup.hide()
+	$Screens/CoverScreen/StoryTVFrame.hide()
+
+
+func _position_story_popup() -> void:
+	var popup: Control = $Screens/CoverScreen/StoryPopup
+	var frame: TextureRect = $Screens/CoverScreen/StoryTVFrame
+	var display: Panel = $Screens/CoverScreen/StoryPopup/StoryDisplay
+	var content_pad: MarginContainer = $Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad
+	var story_scroll: ScrollContainer = $Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll
+	var story_content: Control = $Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll/StoryScrollPad/StoryScrollContent
+	var story_rich_text: RichTextLabel = $Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll/StoryScrollPad/StoryScrollContent/StoryRichText
+	var popup_size := STORY_POPUP_SIZE
+	var popup_position := ((size - popup_size) * 0.5).round()
+	popup_position.y += STORY_POPUP_Y_OFFSET
+	popup.position = popup_position
+	popup.size = popup_size
+	popup.pivot_offset = popup.size * 0.5
+	frame.position = popup_position
+	frame.size = popup_size
+	frame.pivot_offset = frame.size * 0.5
+	var display_rect := Rect2(
+		STORY_DISPLAY_RECT.position * STORY_POPUP_SCALE,
+		STORY_DISPLAY_RECT.size * STORY_POPUP_SCALE
+	)
+	var text_safe_rect := Rect2(
+		STORY_TEXT_SAFE_RECT.position * STORY_POPUP_SCALE,
+		STORY_TEXT_SAFE_RECT.size * STORY_POPUP_SCALE
+	)
+	display.position = display_rect.position.round()
+	display.size = display_rect.size.round()
+	content_pad.position = text_safe_rect.position.round()
+	content_pad.size = text_safe_rect.size.round()
+	var content_width: float = maxf(420.0, content_pad.size.x - 24.0)
+	story_content.custom_minimum_size = Vector2(content_width, 0.0)
+	story_rich_text.custom_minimum_size = Vector2(content_width, 0.0)
+	story_scroll.custom_minimum_size = Vector2(0.0, maxf(160.0, content_pad.size.y - 108.0))
+	$Screens/CoverScreen/StoryPopup/StoryShimmer.size = Vector2(display.size.x * 0.14, display.size.y)
+
+
+func _toggle_story_popup(visible: bool) -> void:
+	var popup: Control = $Screens/CoverScreen/StoryPopup
+	if visible:
+		_position_story_popup()
+		_story_overlay_target_visible = true
+		_story_overlay_progress = 0.0
+		_story_auto_scroll_delay_timer = STORY_AUTO_SCROLL_DELAY
+		_story_manual_pause_timer = 0.0
+		_story_scroll_target = 0.0
+		_story_scroll_current = 0.0
+		_story_internal_scroll_update = true
+		$Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll.scroll_vertical = 0
+		_story_internal_scroll_update = false
+		$Screens/CoverScreen/StoryBackdrop.show()
+		popup.show()
+	else:
+		_story_overlay_target_visible = false
+
+
+func _update_story_auto_scroll(delta: float) -> void:
+	return
+
+
+func _update_story_overlay_visuals(delta: float) -> void:
+	var popup: Control = $Screens/CoverScreen/StoryPopup
+	var frame: TextureRect = $Screens/CoverScreen/StoryTVFrame
+	var backdrop: ColorRect = $Screens/CoverScreen/StoryBackdrop
+	var display: Panel = $Screens/CoverScreen/StoryPopup/StoryDisplay
+	var shimmer: ColorRect = $Screens/CoverScreen/StoryPopup/StoryShimmer
+	var target := 1.0 if _story_overlay_target_visible else 0.0
+	var speed := 1.0 / (STORY_OVERLAY_OPEN_DURATION if _story_overlay_target_visible else STORY_OVERLAY_CLOSE_DURATION)
+	_story_overlay_progress = move_toward(_story_overlay_progress, target, delta * speed)
+	if _story_overlay_progress <= 0.0 and not _story_overlay_target_visible:
+		backdrop.hide()
+		popup.hide()
+		frame.hide()
+		return
+	backdrop.show()
+	popup.show()
+	frame.show()
+	var eased := smoothstep(0.0, 1.0, _story_overlay_progress)
+	_story_flicker_timer -= delta
+	if _story_flicker_timer <= 0.0:
+		_story_flicker_timer = randf_range(3.0, 7.5)
+		_story_flicker_strength = randf_range(-0.018, 0.022)
+	_story_flicker_strength = lerpf(_story_flicker_strength, 0.0, minf(1.0, delta * 5.5))
+	var panel_brightness := clampf(1.0 + _story_flicker_strength, 0.96, 1.04)
+	backdrop.color = Color(0.0117647, 0.0196078, 0.0392157, 0.34 * eased)
+	popup.modulate = Color(panel_brightness, panel_brightness, panel_brightness, eased)
+	popup.scale = Vector2.ONE * lerpf(0.965, 1.0, eased)
+	frame.modulate = Color(panel_brightness, panel_brightness, panel_brightness, eased)
+	frame.scale = popup.scale
+	_story_shimmer_phase = wrapf(_story_shimmer_phase + delta / 10.0, 0.0, 1.0)
+	if _story_shimmer_phase < 0.22:
+		var shimmer_width := maxf(96.0, display.size.x * 0.12)
+		var travel := display.size.x + shimmer_width * 2.0
+		shimmer.visible = true
+		shimmer.modulate = Color(1, 1, 1, 0.18 * eased)
+		shimmer.position = Vector2(display.position.x - shimmer_width + travel * (_story_shimmer_phase / 0.22), display.position.y)
+		shimmer.size = Vector2(shimmer_width, display.size.y)
+	else:
+		shimmer.visible = false
+
+
+func _adjust_story_scroll(amount: float) -> void:
+	_set_story_scroll_target(_story_scroll_target + amount)
+
+
+func _set_story_scroll_target(value: float) -> void:
+	_story_manual_pause_timer = STORY_MANUAL_SCROLL_PAUSE
+	_story_auto_scroll_delay_timer = 0.0
+	_story_scroll_target = clampf(value, 0.0, _get_story_scroll_max())
+
+
+func _get_story_scroll_max() -> float:
+	var story_scroll: ScrollContainer = $Screens/CoverScreen/StoryPopup/StoryDisplay/StoryPopupPad/StoryPopupStack/StoryScroll
+	var bar := story_scroll.get_v_scroll_bar()
+	return maxf(0.0, bar.max_value - bar.page)
+
+
+func _on_story_scrollbar_value_changed(value: float) -> void:
+	if _story_internal_scroll_update:
+		return
+	_story_manual_pause_timer = STORY_MANUAL_SCROLL_PAUSE
+	_story_auto_scroll_delay_timer = 0.0
+	_story_scroll_target = value
+	_story_scroll_current = value
+
+
+func _build_story_overlay_bbcode() -> String:
+	return """
+[color=#86dfff][b]TV FRAME ONLINE[/b][/color]
+
+[color=#d7e0e8]Version 1 replaces the old story window with the dedicated monitor shell asset and a calibrated internal display area. This layer is now constrained to the curved screen opening so future pages stay inside the glass.[/color]
+
+[color=#f5cf77][b]NEXT PHASE[/b][/color]
+[color=#d7e0e8]Version 2 will drive this display with the cinematic transmission sequence: CRT boot flash, static bursts, segmented pages, line-by-line reveals, and shutdown after the final page.[/color]
+
+[color=#86dfff][b]STORY TARGETS LOCKED[/b][/color]
+[color=#d7e0e8]The upcoming page system is ready to present [color=#cfeeff][b]REINA SOLARI (レイナ・ソラリ)[/b][/color], [color=#f5cf77][b]SOULSHUGAN[/b][/color], and the [color=#f5cf77][b]STELLAR DEVOURER[/b][/color] briefing inside the new TV display without touching the title screen artwork underneath.[/color]
+"""
+
+
 func _apply_scanlines() -> void:
 	var overlay: Control = $Screens/GameplayScreen/GameplayCenter/FrameRatio/FramePanel/FrameMargin/ScanlineOverlay
 	overlay.visible = $SettingsPanel/SettingsPad/SettingsStack/ScanlineToggle.button_pressed
@@ -442,12 +648,17 @@ func _assign_rotating_title_art() -> void:
 	_advance_cover_cycle()
 
 
-func _reset_cover_intro() -> void:
+func _reset_cover_intro(reset_actions: bool = true) -> void:
 	_cover_intro_timer = 0.0
 	_cover_track_timer = 0.0
 	_cover_music_started = false
 	$TitleThemePlayer.set_active(false)
-	$Screens/CoverScreen/IntroDock/IntroStack.modulate = Color(1, 1, 1, 1)
+	if reset_actions:
+		_cover_button_timer = 0.0
+		_cover_actions_revealed = false
+		$Screens/CoverScreen/ActionDock.modulate = Color(1, 1, 1, 0)
+	else:
+		$Screens/CoverScreen/ActionDock.modulate = Color(1, 1, 1, 1)
 	_refresh_track_box()
 
 
@@ -463,14 +674,11 @@ func _animate_stars(delta: float) -> void:
 			star.position.x = randf_range(0.0, size.x)
 
 
-func _animate_frontend() -> void:
-	var story_card: Control = $Screens/CoverScreen/IntroDock/IntroStack/StoryCard
-	var intro_eyebrow: Label = $Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroEyebrow
-	var intro_title: Label = $Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroTitle
-	var intro_body: Label = $Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroBody
-	var intro_flavor: Label = $Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/StoryContent/IntroFlavor
-	var launch_glow: ColorRect = $Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/ActionRow/LaunchGlow
-	var launch_button: Control = $Screens/CoverScreen/IntroDock/IntroStack/StoryCard/StoryPad/StoryLayout/ActionRow/LaunchGlow/LaunchButton
+func _animate_cover_ui() -> void:
+	var action_dock: Control = $Screens/CoverScreen/ActionDock
+	var action_card: Control = $Screens/CoverScreen/ActionDock/ActionCard
+	var story_button: Button = $Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons/StoryButton
+	var launch_button: Button = $Screens/CoverScreen/ActionDock/ActionCard/ActionPad/ActionButtons/LaunchButton
 	var music_card: Control = $Screens/CoverScreen/MusicDock/MusicCard
 	var music_notes: Label = $Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/TrackRow/MusicHeader/MusicNotes
 	var track_name: Label = $Screens/CoverScreen/MusicDock/MusicCard/MusicPad/MusicStack/TrackRow/TrackName
@@ -479,50 +687,46 @@ func _animate_frontend() -> void:
 	var title_overlay: CanvasItem = $Screens/CoverScreen/TitleOverlay
 	var banner: Control = $Screens/MenuScreen/MenuCenter/MenuStack/MenuBanner
 	var settings_anim: ColorRect = $SettingsPanel/SettingsPad/SettingsStack/SettingsAnimation
-	var intro_stack: Control = $Screens/CoverScreen/IntroDock/IntroStack
 
 	var wave := sin(_cover_phase * 1.6)
 	banner.scale = Vector2.ONE * (1.0 + sin(_menu_phase * 1.2) * 0.01)
 	settings_anim.color = Color(0.129412, 0.192157 + abs(sin(_menu_phase * 2.1)) * 0.12, 0.298039 + abs(cos(_menu_phase * 1.5)) * 0.12, 1.0)
 	if _current_screen == AppScreen.COVER:
 		var card_alpha := _intro_progress(0.0, INTRO_CARD_DURATION)
-		var text_alpha := _intro_progress(0.35, INTRO_TEXT_DURATION)
-		var button_alpha := _intro_progress(1.0, INTRO_BUTTON_DURATION)
-		intro_stack.modulate = Color(1, 1, 1, 1)
+		var button_alpha := 1.0 if _cover_actions_revealed else smoothstep(
+			0.0,
+			1.0,
+			clampf((_cover_button_timer - COVER_BUTTON_REVEAL_DELAY) / maxf(INTRO_BUTTON_DURATION, 0.01), 0.0, 1.0)
+		)
+		if not _cover_actions_revealed and button_alpha >= 0.999:
+			_cover_actions_revealed = true
+			button_alpha = 1.0
 		title_artwork.modulate = Color(1, 1, 1, card_alpha)
 		title_overlay.modulate = Color(1, 1, 1, clampf(card_alpha * 0.92, 0.0, 1.0))
-		story_card.modulate = Color(1, 1, 1, card_alpha)
-		story_card.position.y = lerpf(-18.0, 0.0, card_alpha)
-		story_card.scale = Vector2.ONE * lerpf(0.98, 1.0, card_alpha)
-		intro_eyebrow.modulate = Color(1, 1, 1, text_alpha)
-		intro_title.modulate = Color(1, 1, 1, text_alpha)
-		intro_body.modulate = Color(1, 1, 1, text_alpha)
-		intro_flavor.modulate = Color(1, 1, 1, text_alpha)
+		action_dock.modulate = Color(1, 1, 1, button_alpha)
+		action_card.scale = Vector2.ONE
 		var button_wave := 0.5 + 0.5 * sin(_cover_phase * 2.0)
 		var jitter_gate := pow(maxf(0.0, sin(_cover_phase * 0.9)), 18.0)
-		var jitter_x := sin(_cover_phase * 38.0) * 2.0 * jitter_gate
-		var jitter_y := cos(_cover_phase * 27.0) * 1.0 * jitter_gate
-		launch_glow.modulate = Color(1.0 + wave * 0.08, 1.0 + wave * 0.05, 1.0, button_alpha)
-		launch_glow.color = Color(0.313726, 0.705882, 1, 0.14 + button_wave * 0.14)
+		var launch_tilt := sin(_cover_phase * 26.0) * 0.035 * jitter_gate
 		launch_button.modulate = Color(1, 1, 1, button_alpha)
-		launch_glow.position.y = lerpf(12.0, 0.0, button_alpha)
-		launch_glow.position.x = jitter_x
-		launch_button.scale = Vector2.ONE * (1.0 + button_wave * 0.02 + jitter_gate * 0.01)
-		launch_button.position = Vector2(8.0 + jitter_x, 7.0 + jitter_y)
+		launch_button.scale = Vector2.ONE * (1.0 + button_wave * 0.018 + jitter_gate * 0.01)
+		launch_button.rotation = launch_tilt
+		story_button.modulate = Color(1, 1, 1, button_alpha * 0.96)
+		story_button.scale = Vector2.ONE
+		story_button.rotation = 0.0
 		music_card.modulate = Color(1, 1, 1, _intro_progress(1.05, 0.7))
-		music_notes.text = "♫" if int(_cover_phase * 3.0) % 2 == 0 else "♪"
+		music_notes.text = "\u266B" if int(_cover_phase * 3.0) % 2 == 0 else "\u266A"
 		music_notes.position.y = sin(_cover_phase * 4.2) * 2.0
 		track_name.modulate = Color(1, 1, 1, 0.9 + button_wave * 0.08)
 		track_meta.modulate = Color(1, 1, 1, 0.85 + button_wave * 0.1)
 	else:
 		title_artwork.modulate = Color.WHITE
 		title_overlay.modulate = Color.WHITE
-		story_card.position.y = 0.0
-		story_card.scale = Vector2.ONE
-		launch_glow.position.y = 0.0
-		launch_glow.position.x = 0.0
+		action_card.scale = Vector2.ONE
 		launch_button.scale = Vector2.ONE
-		launch_button.position = Vector2(8.0, 7.0)
+		launch_button.rotation = 0.0
+		story_button.scale = Vector2.ONE
+		story_button.rotation = 0.0
 		music_card.modulate = Color.WHITE
 		music_notes.position.y = 0.0
 
@@ -623,7 +827,7 @@ func _apply_cover_entry(entry: Dictionary, remember: bool) -> void:
 
 func _advance_cover_cycle() -> void:
 	_apply_cover_entry(_generate_next_cover_entry(), true)
-	_reset_cover_intro()
+	_reset_cover_intro(false)
 
 
 func _play_next_title_track() -> void:
@@ -637,7 +841,7 @@ func _play_previous_title_track() -> void:
 	_cover_manual_stopped = false
 	_cover_history_index -= 1
 	_apply_cover_entry(_cover_history[_cover_history_index], false)
-	_reset_cover_intro()
+	_reset_cover_intro(false)
 
 
 func _toggle_title_playback() -> void:
@@ -771,4 +975,5 @@ func _apply_resize() -> void:
 	_normal_window_size = new_size
 	_restore_window_pos = new_pos
 	_restore_window_size = new_size
+
 

@@ -29,6 +29,16 @@
       <div class="hero-grid">
         <section class="hero-copy">
           <p class="hero-tag">PC Engine-inspired vertical shooter</p>
+          <div class="project-status">
+            <span class="status-label">Project Status</span>
+            <div class="status-pills">
+              <span class="status-pill active">In Progress</span>
+              <span class="status-pill warning">Under Construction</span>
+            </div>
+            <p class="status-note">
+              Front-end shell, TV-based story presentation, music handling, and fullscreen behavior are actively being refined while gameplay systems move into the next major phase.
+            </p>
+          </div>
           <h1>Reina Solari enters the cloudline war.</h1>
           <p class="hero-body">
             <strong>Soldier Gun</strong> is an original sci-fi shmup project about speed, transformation, atmosphere,
@@ -359,6 +369,46 @@
               <h3>Audio system</h3>
               <p>The audio side is being treated less like “add some background tracks” and more like cataloguing a real game soundtrack line-up. Title themes, stage themes, ending themes, instrumental cuts, omake tracks, and darker alternate mixes are all being grouped and named in a way that reflects how retro fans actually think about game music. The long-term idea is that Soldier Gun should feel like the kind of project where the soundtrack itself has lore, mood identity, collector appeal, and enough structure that even the website can preview it like a miniature soundtrack archive.</p>
             </article>
+          </div>
+      </section>
+
+      <section class="section roadmap-section">
+        <div class="section-heading">
+          <span class="eyebrow">Project Roadmap</span>
+          <h2>What is locked in, what is being built now, and what still needs design decisions.</h2>
+        </div>
+        <div class="roadmap-grid">
+          <article class="roadmap-card">
+            <h3>Foundation</h3>
+            <ul class="roadmap-list">
+              <li><span class="roadmap-status done">Done</span><div><strong>Base project code created</strong><p>Godot project, repo structure, shell scripts, and source organization are in place.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Game shell created</strong><p>Window shell, command-deck flow, title presentation, music bar, and menu routing are already working.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Menu and settings system drafted</strong><p>Fullscreen, scanlines, shell controls, and front-end behavior are already defined in prototype form.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>GitHub repo and automation workflow connected</strong><p>Project files and website updates can now be synced together as part of one publishing routine.</p></div></li>
+            </ul>
+          </article>
+
+          <article class="roadmap-card">
+            <h3>Presentation Layer</h3>
+            <ul class="roadmap-list">
+              <li><span class="roadmap-status done">Done</span><div><strong>Sample title artworks created</strong><p>Good-route and evil-route image pools are live and already rotate inside the shell.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Music player and soundtrack preview system created</strong><p>The title shell and website can both present curated music states instead of static background audio.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Initial soundtrack catalog assembled</strong><p>Title, stage, ending, instrumental, and omake tracks are now sorted into a usable structure.</p></div></li>
+              <li><span class="roadmap-status doing">In Progress</span><div><strong>Artwork expansion and curation</strong><p>More key art, route-specific imagery, and stronger category organization are still being added.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Gallery function</strong><p>The Omake folder and future art categories will become a browseable in-game and website gallery later.</p></div></li>
+            </ul>
+          </article>
+
+          <article class="roadmap-card">
+            <h3>Gameplay Decisions</h3>
+            <ul class="roadmap-list">
+              <li><span class="roadmap-status doing">Next Major Milestone</span><div><strong>Start the actual game engine layer</strong><p>The next big phase is moving from shell/presentation into enemy logic, stage flow, scoring, and real combat systems.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Define ship feel</strong><p>Speed, acceleration, response, hit feel, and how Soulshugan should move need to be tuned deliberately.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Design weapon system</strong><p>We still need to lock weapon types, power-up behavior, support units, bombs, and route-specific combat identity.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Create sample combat assets</strong><p>Ships, enemies, bullets, explosions, bosses, HUD layout, and score display all need first-pass production art.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Define scoring and options</strong><p>High-score logic, caravan-style pacing, difficulty, lives, and option behaviors still need formal design decisions.</p></div></li>
+            </ul>
+          </article>
         </div>
       </section>
 
@@ -368,6 +418,14 @@
           <h2>How updates can look on the future live site.</h2>
         </div>
         <div class="timeline">
+          <article>
+            <div class="timeline-meta">
+              <span class="timeline-date">2026-04-13 CEST</span>
+              <span class="timeline-phase">Build Phase 06</span>
+            </div>
+            <h3>Story mode TV overlay reaches first complete presentation pass</h3>
+            <p><strong>Update:</strong> The first version of the story-mode TV screen is now locked into place with a dedicated monitor shell, calibrated text layer, fixed padding, and a stable fullscreen-safe alignment. This pass also included bug fixing for the title-button reveal timer, removal of the unused close button, and cleanup of the story presentation flow so the overlay now behaves like a proper in-universe transmission screen instead of a temporary debug panel.</p>
+          </article>
           <article>
             <div class="timeline-meta">
               <span class="timeline-date">2026-04-12 22:40 CEST</span>
