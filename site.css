@@ -101,7 +101,7 @@ h3,
 }
 
 .brand {
-  font-size: 1.8rem;
+  font-size: 2.8rem;
   font-weight: 700;
 }
 
@@ -125,12 +125,16 @@ h3,
 .split-grid,
 .stack-grid {
   display: grid;
-  gap: 24px;
+  gap: 12px;
 }
 
 .hero-grid {
-  grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.hero-copy {
+  max-width: 100%;
 }
 
 .hero-copy h1 {
@@ -149,7 +153,7 @@ h3,
 }
 
 .hero-body {
-  max-width: 62ch;
+  max-width: 72ch;
   line-height: 1.7;
   color: #d6def1;
 }
@@ -157,10 +161,29 @@ h3,
 .project-status {
   margin: 0 0 18px;
   padding: 16px 18px;
+  max-width: 760px;
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 20px;
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
   box-shadow: var(--shadow);
+}
+
+.hero-copy > h1,
+.hero-copy > .hero-body {
+  display: none;
+}
+
+.hero-description {
+  margin-top: 18px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.hero-description img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
 }
 
 .status-label {
@@ -210,6 +233,16 @@ h3,
 .hero-note {
   max-width: 56ch;
   color: #f0c86e;
+}
+
+.hero-summary {
+  margin-top: 18px;
+  padding: 22px 28px 28px;
+}
+
+.hero-summary-header h2 {
+  margin: 8px 0 0;
+  font-size: clamp(1.5rem, 2vw, 2rem);
 }
 
 .hero-pills,
@@ -265,6 +298,9 @@ h3,
 .hero-visual {
   display: grid;
   gap: 18px;
+  align-content: start;
+  width: 100%;
+  margin-top: 0;
 }
 
 .hero-card {
@@ -276,6 +312,7 @@ h3,
 }
 
 .hero-card img,
+.hero-card video,
 .gallery-item img {
   display: block;
   width: 100%;
@@ -284,11 +321,7 @@ h3,
 }
 
 .primary-frame {
-  min-height: 520px;
-}
-
-.side-frame {
-  min-height: 240px;
+  min-height: 560px;
 }
 
 .frame-caption,
