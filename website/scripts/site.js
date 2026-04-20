@@ -95,20 +95,160 @@ const FINAL_SHIP_TUNING = Object.freeze({
 });
 
 const PULSE_PHASE_VISUALS = Object.freeze({
-  glowColor: "rgba(255, 124, 44, 0.24)",
-  shellColor: "rgba(255, 196, 72, 0.86)",
+  outerGlowColor: "rgba(255, 124, 44, 0.16)",
+  trailGlowColor: "rgba(255, 168, 62, 0.22)",
+  shellShadowColor: "#9f3f15",
+  shellColor: "#ffc448",
+  collarColor: "#ffd86f",
   coreColor: "#fff2b2",
-  tipColor: "#ff7a2f",
-  sparkColor: "#fff6d8",
-  glowWidth: 5,
-  glowHeight: 12,
-  shellWidth: 3,
-  shellHeight: 15,
-  coreWidth: 1,
-  coreHeight: 11,
-  tipWidth: 3,
-  tipHeight: 4,
-  sparkHeight: 2,
+  noseColor: "#fff8de",
+  trailColor: "#ff8b2f",
+  trailCoreColor: "#fff3bf",
+  muzzleGlowColor: "rgba(255, 168, 74, 0.24)",
+  muzzleFlareColor: "#ffb24d",
+  muzzleCoreColor: "#fff6d2",
+  muzzleSparkColor: "#ff7b2f",
+  muzzleDuration: 0.055,
+});
+
+const FLIGHT_AUDIO_TUNING = Object.freeze({
+  attack: 0.004,
+  decay: 0.11,
+  baseGain: 0.042,
+  basePitch: 980,
+  tailPitch: 420,
+});
+
+const BOOSTER_AUDIO_TUNING = Object.freeze({
+  engageAttack: 0.02,
+  releaseAttack: 0.012,
+  outputGain: 4.096,
+  noiseBufferDuration: 0.5,
+  compressor: Object.freeze({
+    threshold: -26,
+    knee: 18,
+    ratio: 3,
+    attack: 0.003,
+    release: 0.12,
+  }),
+  modes: Object.freeze({
+    forward: Object.freeze({
+      pan: 0,
+      rumbleType: "triangle",
+      whineType: "sine",
+      engageDuration: 0.3,
+      releaseDuration: 0.19,
+      engageRumbleStart: 72,
+      engageRumbleEnd: 118,
+      releaseRumbleStart: 110,
+      releaseRumbleEnd: 58,
+      engageWhineStart: 180,
+      engageWhineEnd: 320,
+      releaseWhineStart: 260,
+      releaseWhineEnd: 120,
+      engageBodyStart: 240,
+      engageBodyEnd: 1320,
+      releaseBodyStart: 1180,
+      releaseBodyEnd: 220,
+      engagePresenceStart: 900,
+      engagePresenceEnd: 3200,
+      releasePresenceStart: 2200,
+      releasePresenceEnd: 650,
+      bodyNoiseGain: 0.0135,
+      presenceNoiseGain: 0.0056,
+      rumbleGain: 0.0034,
+      whineGain: 0.0018,
+      playbackRateEngage: 1.02,
+      playbackRateRelease: 0.92,
+    }),
+    reverse: Object.freeze({
+      pan: 0,
+      rumbleType: "sine",
+      whineType: "triangle",
+      engageDuration: 0.24,
+      releaseDuration: 0.17,
+      engageRumbleStart: 58,
+      engageRumbleEnd: 88,
+      releaseRumbleStart: 86,
+      releaseRumbleEnd: 48,
+      engageWhineStart: 132,
+      engageWhineEnd: 220,
+      releaseWhineStart: 188,
+      releaseWhineEnd: 96,
+      engageBodyStart: 180,
+      engageBodyEnd: 760,
+      releaseBodyStart: 680,
+      releaseBodyEnd: 160,
+      engagePresenceStart: 700,
+      engagePresenceEnd: 1900,
+      releasePresenceStart: 1500,
+      releasePresenceEnd: 480,
+      bodyNoiseGain: 0.0105,
+      presenceNoiseGain: 0.0038,
+      rumbleGain: 0.003,
+      whineGain: 0.0015,
+      playbackRateEngage: 0.96,
+      playbackRateRelease: 0.88,
+    }),
+    left: Object.freeze({
+      pan: -0.28,
+      rumbleType: "triangle",
+      whineType: "sine",
+      engageDuration: 0.18,
+      releaseDuration: 0.13,
+      engageRumbleStart: 64,
+      engageRumbleEnd: 98,
+      releaseRumbleStart: 92,
+      releaseRumbleEnd: 52,
+      engageWhineStart: 150,
+      engageWhineEnd: 250,
+      releaseWhineStart: 220,
+      releaseWhineEnd: 104,
+      engageBodyStart: 210,
+      engageBodyEnd: 920,
+      releaseBodyStart: 820,
+      releaseBodyEnd: 180,
+      engagePresenceStart: 820,
+      engagePresenceEnd: 2200,
+      releasePresenceStart: 1700,
+      releasePresenceEnd: 520,
+      bodyNoiseGain: 0.0094,
+      presenceNoiseGain: 0.0042,
+      rumbleGain: 0.0028,
+      whineGain: 0.0014,
+      playbackRateEngage: 0.98,
+      playbackRateRelease: 0.9,
+    }),
+    right: Object.freeze({
+      pan: 0.28,
+      rumbleType: "triangle",
+      whineType: "sine",
+      engageDuration: 0.18,
+      releaseDuration: 0.13,
+      engageRumbleStart: 66,
+      engageRumbleEnd: 102,
+      releaseRumbleStart: 94,
+      releaseRumbleEnd: 54,
+      engageWhineStart: 156,
+      engageWhineEnd: 258,
+      releaseWhineStart: 228,
+      releaseWhineEnd: 108,
+      engageBodyStart: 220,
+      engageBodyEnd: 960,
+      releaseBodyStart: 860,
+      releaseBodyEnd: 190,
+      engagePresenceStart: 860,
+      engagePresenceEnd: 2280,
+      releasePresenceStart: 1760,
+      releasePresenceEnd: 560,
+      bodyNoiseGain: 0.0094,
+      presenceNoiseGain: 0.0042,
+      rumbleGain: 0.0028,
+      whineGain: 0.0014,
+      playbackRateEngage: 0.99,
+      playbackRateRelease: 0.91,
+    }),
+  }),
 });
 
 const FINAL_WEAPON_TUNING = Object.freeze({
@@ -139,10 +279,12 @@ const FINAL_WEAPON_TUNING = Object.freeze({
         label: "Pulse Phase 3",
         cooldown: 0.13,
         shots: Object.freeze([
+          Object.freeze({ offsetX: -38, offsetY: -42, speed: 460, angleDeg: -25 }),
           Object.freeze({ offsetX: -24, offsetY: -42, speed: 460 }),
           Object.freeze({ offsetX: -10, offsetY: -42, speed: 460 }),
           Object.freeze({ offsetX: 10, offsetY: -42, speed: 460 }),
           Object.freeze({ offsetX: 24, offsetY: -42, speed: 460 }),
+          Object.freeze({ offsetX: 38, offsetY: -42, speed: 460, angleDeg: 25 }),
         ]),
         visuals: PULSE_PHASE_VISUALS,
       }),
@@ -150,10 +292,18 @@ const FINAL_WEAPON_TUNING = Object.freeze({
         label: "Pulse Phase 4",
         cooldown: 0.13,
         shots: Object.freeze([
+          Object.freeze({ offsetX: -38, offsetY: -42, speed: 460, angleDeg: -25 }),
           Object.freeze({ offsetX: -24, offsetY: -42, speed: 460 }),
           Object.freeze({ offsetX: -10, offsetY: -42, speed: 460 }),
           Object.freeze({ offsetX: 10, offsetY: -42, speed: 460 }),
           Object.freeze({ offsetX: 24, offsetY: -42, speed: 460 }),
+          Object.freeze({ offsetX: 38, offsetY: -42, speed: 460, angleDeg: 25 }),
+          Object.freeze({ offsetX: -38, offsetY: 34, speed: 460, angleDeg: -155 }),
+          Object.freeze({ offsetX: -24, offsetY: 34, speed: 460, angleDeg: 180 }),
+          Object.freeze({ offsetX: -10, offsetY: 34, speed: 460, angleDeg: 180 }),
+          Object.freeze({ offsetX: 10, offsetY: 34, speed: 460, angleDeg: 180 }),
+          Object.freeze({ offsetX: 24, offsetY: 34, speed: 460, angleDeg: 180 }),
+          Object.freeze({ offsetX: 38, offsetY: 34, speed: 460, angleDeg: 155 }),
         ]),
         visuals: PULSE_PHASE_VISUALS,
       }),
@@ -268,6 +418,7 @@ for (const stopButton of stopButtons) {
 
 if (flightCanvas) {
   const context = flightCanvas.getContext("2d");
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const spriteSheets = {
     idle: createSpriteSheet(`assets/generated/ship_idle_sheet.png?v=${FLIGHT_ASSET_VERSION}`),
     left: createSpriteSheet(`assets/generated/ship_strafe_left_sheet.png?v=${FLIGHT_ASSET_VERSION}`),
@@ -280,7 +431,11 @@ if (flightCanvas) {
   ];
   const keys = new Set();
   const bullets = [];
+  const cannonFlashes = [];
   const stars = createStars(70, flightCanvas.width, flightCanvas.height);
+  let flightAudioContext = null;
+  let flightNoiseBuffer = null;
+  let shotSoundSeed = 0;
   const ship = {
     x: flightCanvas.width / 2,
     y: flightCanvas.height - 132,
@@ -294,6 +449,8 @@ if (flightCanvas) {
     leftBoosterLag: 0,
     rightBoosterLag: 0,
     fireCooldown: 0,
+    audioThrustMode: "idle",
+    audioStrafeMode: "idle",
   };
   let lastFrameAt = performance.now();
 
@@ -301,12 +458,15 @@ if (flightCanvas) {
     if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Space", "KeyA", "KeyD", "KeyW", "KeyS"].includes(event.code)) {
       event.preventDefault();
     }
+    unlockFlightAudio();
     keys.add(event.code);
   });
 
   window.addEventListener("keyup", (event) => {
     keys.delete(event.code);
   });
+
+  flightCanvas.addEventListener("pointerdown", unlockFlightAudio, { passive: true });
 
   setupWeaponSelectors();
   Promise.all(Object.values(spriteSheets).map((sheet) => sheet.ready)).then(() => {
@@ -321,6 +481,7 @@ if (flightCanvas) {
     const deltaSeconds = Math.min(0.033, (timestamp - lastFrameAt) / 1000);
     lastFrameAt = timestamp;
 
+    updateCannonFlashes(deltaSeconds);
     updateShip(deltaSeconds);
     updateBullets(deltaSeconds);
     updateStars(deltaSeconds);
@@ -369,21 +530,47 @@ if (flightCanvas) {
       throttleReadout.textContent = `${Math.round(ship.throttle * 100)}%`;
     }
 
+    const nextStrafeMode = moveLeft && !moveRight
+      ? "left"
+      : moveRight && !moveLeft
+        ? "right"
+        : "idle";
+    syncBoosterAudioState("thrust", ship.thrustMode);
+    syncBoosterAudioState("strafe", nextStrafeMode);
+
     const phaseConfig = getWeaponPhaseConfig(ship.weaponFamily, ship.weaponPhase);
     ship.fireCooldown -= deltaSeconds;
     if (keys.has("Space") && ship.fireCooldown <= 0) {
       fireWeaponPhase(ship.weaponFamily, ship.weaponPhase, phaseConfig);
+      playPulseShotSound(phaseConfig);
       ship.fireCooldown = phaseConfig.cooldown;
     }
   }
 
   function updateBullets(deltaSeconds) {
     for (const bullet of bullets) {
-      bullet.y -= bullet.speed * deltaSeconds;
+      bullet.x += bullet.velocityX * deltaSeconds;
+      bullet.y += bullet.velocityY * deltaSeconds;
     }
     for (let index = bullets.length - 1; index >= 0; index -= 1) {
-      if (bullets[index].y < -24) {
+      if (
+        bullets[index].y < -24 ||
+        bullets[index].y > flightCanvas.height + 24 ||
+        bullets[index].x < -24 ||
+        bullets[index].x > flightCanvas.width + 24
+      ) {
         bullets.splice(index, 1);
+      }
+    }
+  }
+
+  function updateCannonFlashes(deltaSeconds) {
+    for (const flash of cannonFlashes) {
+      flash.life -= deltaSeconds;
+    }
+    for (let index = cannonFlashes.length - 1; index >= 0; index -= 1) {
+      if (cannonFlashes[index].life <= 0) {
+        cannonFlashes.splice(index, 1);
       }
     }
   }
@@ -438,6 +625,7 @@ if (flightCanvas) {
 
     renderBoosterGlow(drawX, drawY);
     context.drawImage(processedFrame, drawX, drawY, 128, 128);
+    renderCannonFlashes(drawX, drawY);
     if (ship.thrustMode === "reverse") {
       renderReverseBoosters(drawX, drawY, frameIndex);
     } else if (ship.velocityX < -FINAL_SHIP_TUNING.strafeThreshold) {
@@ -625,15 +813,314 @@ if (flightCanvas) {
     return FINAL_WEAPON_TUNING[family].phases[phase];
   }
 
+  function unlockFlightAudio() {
+    if (!AudioContextClass) {
+      return;
+    }
+    if (!flightAudioContext) {
+      flightAudioContext = new AudioContextClass();
+      flightNoiseBuffer = createFlightNoiseBuffer(flightAudioContext);
+    }
+    if (flightAudioContext.state === "suspended") {
+      flightAudioContext.resume().catch(() => {});
+    }
+  }
+
+  function createFlightNoiseBuffer(audioContext) {
+    const frameCount = Math.floor(audioContext.sampleRate * BOOSTER_AUDIO_TUNING.noiseBufferDuration);
+    const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
+    const channel = buffer.getChannelData(0);
+    let smooth = 0;
+    let rumble = 0;
+    for (let index = 0; index < frameCount; index += 1) {
+      const white = Math.random() * 2 - 1;
+      smooth = smooth * 0.76 + white * 0.24;
+      rumble = rumble * 0.985 + white * 0.015;
+      const sample = white * 0.52 + smooth * 0.33 + rumble * 0.9;
+      channel[index] = Math.max(-1, Math.min(1, sample));
+    }
+    return buffer;
+  }
+
+  function playPulseShotSound(phaseConfig) {
+    unlockFlightAudio();
+    if (!flightAudioContext || flightAudioContext.state !== "running") {
+      return;
+    }
+
+    const now = flightAudioContext.currentTime;
+    const spreadFactor = Math.max(0, phaseConfig.shots.length - 2);
+    const pitchJitter = (shotSoundSeed % 3) * 16;
+    shotSoundSeed += 1;
+
+    const bodyOscillator = flightAudioContext.createOscillator();
+    bodyOscillator.type = "square";
+    bodyOscillator.frequency.setValueAtTime(
+      FLIGHT_AUDIO_TUNING.basePitch - spreadFactor * 42 + pitchJitter,
+      now,
+    );
+    bodyOscillator.frequency.exponentialRampToValueAtTime(
+      260 + pitchJitter,
+      now + FLIGHT_AUDIO_TUNING.decay,
+    );
+
+    const tailOscillator = flightAudioContext.createOscillator();
+    tailOscillator.type = "triangle";
+    tailOscillator.frequency.setValueAtTime(
+      FLIGHT_AUDIO_TUNING.tailPitch + pitchJitter * 0.6,
+      now,
+    );
+    tailOscillator.frequency.exponentialRampToValueAtTime(
+      120 + spreadFactor * 10,
+      now + FLIGHT_AUDIO_TUNING.decay,
+    );
+
+    const filter = flightAudioContext.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(2800, now);
+    filter.frequency.exponentialRampToValueAtTime(1100, now + FLIGHT_AUDIO_TUNING.decay);
+
+    const gainNode = flightAudioContext.createGain();
+    gainNode.gain.setValueAtTime(0.0001, now);
+    gainNode.gain.linearRampToValueAtTime(
+      FLIGHT_AUDIO_TUNING.baseGain + spreadFactor * 0.006,
+      now + FLIGHT_AUDIO_TUNING.attack,
+    );
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + FLIGHT_AUDIO_TUNING.decay);
+
+    bodyOscillator.connect(filter);
+    tailOscillator.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(flightAudioContext.destination);
+
+    bodyOscillator.start(now);
+    tailOscillator.start(now);
+    bodyOscillator.stop(now + FLIGHT_AUDIO_TUNING.decay);
+    tailOscillator.stop(now + FLIGHT_AUDIO_TUNING.decay);
+
+    tailOscillator.addEventListener("ended", () => {
+      bodyOscillator.disconnect();
+      tailOscillator.disconnect();
+      filter.disconnect();
+      gainNode.disconnect();
+    }, { once: true });
+  }
+
+  function syncBoosterAudioState(channel, nextMode) {
+    const stateKey = channel === "thrust" ? "audioThrustMode" : "audioStrafeMode";
+    const previousMode = ship[stateKey];
+    if (previousMode === nextMode) {
+      return;
+    }
+    if (previousMode !== "idle") {
+      playBoosterShiftSound(previousMode, "release");
+    }
+    if (nextMode !== "idle") {
+      playBoosterShiftSound(nextMode, "engage");
+    }
+    ship[stateKey] = nextMode;
+  }
+
+  function playBoosterShiftSound(mode, action) {
+    unlockFlightAudio();
+    if (!flightAudioContext || flightAudioContext.state !== "running" || !flightNoiseBuffer) {
+      return;
+    }
+
+    const profile = BOOSTER_AUDIO_TUNING.modes[mode];
+    if (!profile) {
+      return;
+    }
+
+    const now = flightAudioContext.currentTime;
+    const isEngage = action === "engage";
+    const duration = isEngage ? profile.engageDuration : profile.releaseDuration;
+    const attack = isEngage ? BOOSTER_AUDIO_TUNING.engageAttack : BOOSTER_AUDIO_TUNING.releaseAttack;
+    const startRumble = isEngage ? profile.engageRumbleStart : profile.releaseRumbleStart;
+    const endRumble = isEngage ? profile.engageRumbleEnd : profile.releaseRumbleEnd;
+    const startWhine = isEngage ? profile.engageWhineStart : profile.releaseWhineStart;
+    const endWhine = isEngage ? profile.engageWhineEnd : profile.releaseWhineEnd;
+    const startBody = isEngage ? profile.engageBodyStart : profile.releaseBodyStart;
+    const endBody = isEngage ? profile.engageBodyEnd : profile.releaseBodyEnd;
+    const startPresence = isEngage ? profile.engagePresenceStart : profile.releasePresenceStart;
+    const endPresence = isEngage ? profile.engagePresenceEnd : profile.releasePresenceEnd;
+
+    const rumbleOscillator = flightAudioContext.createOscillator();
+    rumbleOscillator.type = profile.rumbleType;
+    rumbleOscillator.frequency.setValueAtTime(startRumble, now);
+    rumbleOscillator.frequency.exponentialRampToValueAtTime(endRumble, now + duration);
+
+    const whineOscillator = flightAudioContext.createOscillator();
+    whineOscillator.type = profile.whineType;
+    whineOscillator.frequency.setValueAtTime(startWhine, now);
+    whineOscillator.frequency.exponentialRampToValueAtTime(endWhine, now + duration);
+
+    const rumbleFilter = flightAudioContext.createBiquadFilter();
+    rumbleFilter.type = "lowpass";
+    rumbleFilter.frequency.setValueAtTime(Math.max(160, startBody * 1.4), now);
+    rumbleFilter.frequency.exponentialRampToValueAtTime(Math.max(120, endBody * 1.25), now + duration);
+    rumbleFilter.Q.value = 0.45;
+
+    const whineFilter = flightAudioContext.createBiquadFilter();
+    whineFilter.type = "bandpass";
+    whineFilter.frequency.setValueAtTime(Math.max(240, startPresence * 0.75), now);
+    whineFilter.frequency.exponentialRampToValueAtTime(Math.max(180, endPresence * 0.7), now + duration);
+    whineFilter.Q.value = 0.9;
+
+    const rumbleGain = flightAudioContext.createGain();
+    rumbleGain.gain.value = profile.rumbleGain;
+
+    const whineGain = flightAudioContext.createGain();
+    whineGain.gain.value = profile.whineGain;
+
+    const noiseSource = flightAudioContext.createBufferSource();
+    noiseSource.buffer = flightNoiseBuffer;
+    noiseSource.playbackRate.setValueAtTime(
+      isEngage ? profile.playbackRateEngage : profile.playbackRateRelease,
+      now,
+    );
+
+    const bodyNoiseFilter = flightAudioContext.createBiquadFilter();
+    bodyNoiseFilter.type = "lowpass";
+    bodyNoiseFilter.frequency.setValueAtTime(startBody, now);
+    bodyNoiseFilter.frequency.exponentialRampToValueAtTime(endBody, now + duration);
+    bodyNoiseFilter.Q.value = 0.7;
+
+    const presenceNoiseFilter = flightAudioContext.createBiquadFilter();
+    presenceNoiseFilter.type = "bandpass";
+    presenceNoiseFilter.frequency.setValueAtTime(startPresence, now);
+    presenceNoiseFilter.frequency.exponentialRampToValueAtTime(endPresence, now + duration);
+    presenceNoiseFilter.Q.value = 1.15;
+
+    const bodyNoiseGain = flightAudioContext.createGain();
+    bodyNoiseGain.gain.value = profile.bodyNoiseGain;
+
+    const presenceNoiseGain = flightAudioContext.createGain();
+    presenceNoiseGain.gain.value = profile.presenceNoiseGain;
+
+    const masterGain = flightAudioContext.createGain();
+    masterGain.gain.setValueAtTime(0.0001, now);
+    masterGain.gain.linearRampToValueAtTime(BOOSTER_AUDIO_TUNING.outputGain, now + attack);
+    masterGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    const compressor = flightAudioContext.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(BOOSTER_AUDIO_TUNING.compressor.threshold, now);
+    compressor.knee.setValueAtTime(BOOSTER_AUDIO_TUNING.compressor.knee, now);
+    compressor.ratio.setValueAtTime(BOOSTER_AUDIO_TUNING.compressor.ratio, now);
+    compressor.attack.setValueAtTime(BOOSTER_AUDIO_TUNING.compressor.attack, now);
+    compressor.release.setValueAtTime(BOOSTER_AUDIO_TUNING.compressor.release, now);
+
+    let destination = compressor;
+    let panNode = null;
+    if (typeof flightAudioContext.createStereoPanner === "function") {
+      panNode = flightAudioContext.createStereoPanner();
+      panNode.pan.value = profile.pan;
+      compressor.connect(panNode);
+      destination = panNode;
+    }
+
+    rumbleOscillator.connect(rumbleFilter);
+    rumbleFilter.connect(rumbleGain);
+    rumbleGain.connect(masterGain);
+
+    whineOscillator.connect(whineFilter);
+    whineFilter.connect(whineGain);
+    whineGain.connect(masterGain);
+
+    noiseSource.connect(bodyNoiseFilter);
+    noiseSource.connect(presenceNoiseFilter);
+    bodyNoiseFilter.connect(bodyNoiseGain);
+    presenceNoiseFilter.connect(presenceNoiseGain);
+    bodyNoiseGain.connect(masterGain);
+    presenceNoiseGain.connect(masterGain);
+
+    masterGain.connect(compressor);
+    destination.connect(flightAudioContext.destination);
+
+    rumbleOscillator.start(now);
+    whineOscillator.start(now);
+    noiseSource.start(now);
+    rumbleOscillator.stop(now + duration);
+    whineOscillator.stop(now + duration);
+    noiseSource.stop(now + duration);
+
+    noiseSource.addEventListener("ended", () => {
+      rumbleOscillator.disconnect();
+      whineOscillator.disconnect();
+      noiseSource.disconnect();
+      rumbleFilter.disconnect();
+      rumbleGain.disconnect();
+      whineFilter.disconnect();
+      whineGain.disconnect();
+      bodyNoiseFilter.disconnect();
+      presenceNoiseFilter.disconnect();
+      bodyNoiseGain.disconnect();
+      presenceNoiseGain.disconnect();
+      masterGain.disconnect();
+      compressor.disconnect();
+      if (panNode) {
+        panNode.disconnect();
+      }
+    }, { once: true });
+  }
+
   function fireWeaponPhase(family, phase, phaseConfig) {
-    for (const shot of phaseConfig.shots) {
+    for (const [shotIndex, shot] of phaseConfig.shots.entries()) {
+      const angleRadians = ((shot.angleDeg ?? 0) * Math.PI) / 180;
       bullets.push({
         family,
         phase,
+        variant: shotIndex % 2,
         x: ship.x + shot.offsetX,
         y: ship.y + shot.offsetY,
         speed: shot.speed,
+        angleRadians,
+        velocityX: Math.sin(angleRadians) * shot.speed,
+        velocityY: -Math.cos(angleRadians) * shot.speed,
       });
+      cannonFlashes.push({
+        family,
+        phase,
+        life: phaseConfig.visuals.muzzleDuration,
+        offsetX: shot.offsetX,
+        offsetY: shot.offsetY,
+        angleRadians,
+        variant: shotIndex % 2,
+      });
+    }
+  }
+
+  function renderCannonFlashes(drawX, drawY) {
+    for (const flash of cannonFlashes) {
+      const visuals = getWeaponPhaseConfig(flash.family, flash.phase).visuals;
+      const intensity = Math.max(0, flash.life / visuals.muzzleDuration);
+      const x = Math.round(drawX + 64 + flash.offsetX);
+      const y = Math.round(drawY + 64 + flash.offsetY - 1);
+      const rotation = flash.angleRadians ?? 0;
+      const trailHeight = intensity > 0.58 ? 2 + flash.variant : 1 + flash.variant;
+
+      context.save();
+      context.translate(x, y);
+      context.rotate(rotation);
+      context.globalCompositeOperation = "lighter";
+      context.globalAlpha = 0.7 + intensity * 0.25;
+      context.fillStyle = visuals.muzzleGlowColor;
+      context.fillRect(-3, -5, 7, 6);
+
+      context.fillStyle = visuals.muzzleSparkColor;
+      context.fillRect(0, -5, 1, 2);
+      context.fillRect(-2, -1, 1, 1);
+      context.fillRect(2, -1, 1, 1);
+
+      context.fillStyle = visuals.muzzleFlareColor;
+      context.fillRect(-1, -4, 3, 1);
+      context.fillRect(-2, -3, 5, 1);
+      context.fillRect(-1, -2, 3, 1);
+      context.fillRect(-1, -1, 3, trailHeight);
+
+      context.fillStyle = visuals.muzzleCoreColor;
+      context.fillRect(0, -4, 1, 4 + flash.variant);
+      context.restore();
     }
   }
 
@@ -641,21 +1128,50 @@ if (flightCanvas) {
     const visuals = getWeaponPhaseConfig(bullet.family, bullet.phase).visuals;
     const x = Math.round(bullet.x);
     const y = Math.round(bullet.y);
+    const rotation = bullet.angleRadians ?? 0;
+    const trailFlicker = (Math.floor((bullet.y + bullet.variant * 5) / 7) & 1) === 0 ? 0 : 1;
+    const drawRow = (offsetY, width, color) => {
+      context.fillStyle = color;
+      context.fillRect(-Math.floor(width / 2), offsetY, width, 1);
+    };
 
-    context.fillStyle = visuals.glowColor;
-    context.fillRect(x - Math.floor(visuals.glowWidth / 2), y + 1, visuals.glowWidth, visuals.glowHeight);
+    context.save();
+    context.translate(x, y);
+    context.rotate(rotation);
 
-    context.fillStyle = visuals.shellColor;
-    context.fillRect(x - Math.floor(visuals.shellWidth / 2), y - 1, visuals.shellWidth, visuals.shellHeight);
+    // Paint a fixed pixel silhouette so the pulse reads like a tiny bomb instead of a flat beam.
+    context.fillStyle = visuals.outerGlowColor;
+    context.fillRect(-3, -8, 7, 8);
+    context.fillRect(-2, -1, 5, 5 + trailFlicker);
+
+    context.fillStyle = visuals.trailGlowColor;
+    context.fillRect(-2, 0, 5, 3 + trailFlicker);
+
+    drawRow(-7, 1, visuals.shellShadowColor);
+    drawRow(-6, 3, visuals.shellShadowColor);
+    drawRow(-5, 5, visuals.shellShadowColor);
+    drawRow(-4, 3, visuals.shellShadowColor);
+    drawRow(-3, 3, visuals.shellShadowColor);
+    drawRow(-2, 3, visuals.shellShadowColor);
+    drawRow(-1, 1, visuals.shellShadowColor);
+
+    drawRow(-8, 1, visuals.noseColor);
+    drawRow(-7, 1, visuals.coreColor);
+    drawRow(-6, 3, visuals.collarColor);
+    drawRow(-5, 3, visuals.shellColor);
+    drawRow(-4, 3, visuals.shellColor);
+    drawRow(-3, 3, visuals.shellColor);
 
     context.fillStyle = visuals.coreColor;
-    context.fillRect(x - Math.floor(visuals.coreWidth / 2), y + 1, visuals.coreWidth, visuals.coreHeight);
+    context.fillRect(0, -7, 1, 6);
 
-    context.fillStyle = visuals.tipColor;
-    context.fillRect(x - Math.floor(visuals.tipWidth / 2), y - visuals.tipHeight, visuals.tipWidth, visuals.tipHeight);
+    context.fillStyle = visuals.trailColor;
+    context.fillRect(-1, -1, 3, 2 + trailFlicker);
+    context.fillRect(0, 1, 1, 2 + trailFlicker);
 
-    context.fillStyle = visuals.sparkColor;
-    context.fillRect(x, y - visuals.tipHeight - visuals.sparkHeight, 1, visuals.sparkHeight);
+    context.fillStyle = visuals.trailCoreColor;
+    context.fillRect(0, -1, 1, 2 + trailFlicker);
+    context.restore();
   }
 
   function setupWeaponSelectors() {
