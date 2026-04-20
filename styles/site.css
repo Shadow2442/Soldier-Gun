@@ -135,6 +135,12 @@ h3,
   justify-content: flex-end;
 }
 
+.topbar-separator {
+  color: rgba(214, 222, 241, 0.45);
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .topbar-utility .repo-link {
   display: inline-flex;
   align-items: center;
