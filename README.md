@@ -20,13 +20,24 @@
 
 ## Folder layout
 
-- `docs/`: design, feel, and production notes
-- `scenes/`: Godot scenes
-- `scripts/`: gameplay code
-- `assets/sprites/`: ships, enemies, bullets, UI
-- `assets/audio/music/`: soundtrack exports
-- `assets/audio/sfx/`: sound effects
-- `tools/`: helper scripts and asset notes
+- `game/`: the actual game source and runtime assets
+- `project/`: internal docs, research, captures, and soundtrack work
+- `website/`: only public-facing site files and release media
+- `tools/`: helper scripts and internal utilities
+- `builds/`: exported builds and download packages
+
+## Internal structure
+
+- `game/scenes/`: Godot scenes
+- `game/scripts/`: gameplay code
+- `game/assets/`: sprites, source art, and runtime visuals
+- `game/artwork/`: title art and other game-facing artwork
+- `game/audio/music/`: music used by the game
+- `game/audio/sfx/`: sound effects and sound-design references
+- `project/docs/`: design, feel, and production notes
+- `project/analysis/`: reverse-engineering notes and review outputs
+- `project/references/`: curated captures and study material
+- `project/music/`: soundtrack drafts, previews, and release packages
 
 ## First milestones
 
@@ -39,6 +50,25 @@
 
 The repository is scaffolded for Godot 4 development. If Godot is not installed yet, install it and open this folder as a project.
 
+The public website also includes a browser-playable ship animation test layer. It currently supports:
+
+- steerable ship movement and strafing
+- pulse weapon phase selection
+- approved idle / forward / reverse / strafe thruster visuals
+- synced muzzle flashes, shot audio, and thruster audio cues
+
+## Website / Pages
+
+- Public site source lives in `website/`
+- GitHub Pages is published from the `gh-pages` branch, generated from the `website/` subtree
+- Root `index.html`, `site.css`, and `site.js` are kept as a local mirror/prototype surface during development
+
+If the live site needs a refresh after local changes:
+
+1. Commit the website-facing changes on `main`
+2. Push `main`
+3. Push the `website/` subtree to `gh-pages`
+
 ## Local commands
 
 From PowerShell in this folder:
@@ -50,3 +80,4 @@ Or use the script-policy-safe launchers:
 
 - `tools\open-editor.cmd`
 - `tools\run-project.cmd`
+- `tools\open-website.cmd`

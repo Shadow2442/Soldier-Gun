@@ -957,6 +957,40 @@ h3,
   color: #e7eefc;
 }
 
+.flight-layer-loadout {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.flight-select {
+  display: grid;
+  gap: 8px;
+}
+
+.flight-select span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.flight-select select {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(6, 11, 24, 0.78);
+  color: #edf4ff;
+  font: inherit;
+}
+
+.flight-select select:focus {
+  outline: 2px solid rgba(113, 214, 255, 0.34);
+  outline-offset: 2px;
+}
+
 .flight-layer-stats {
   margin-top: 18px;
   display: grid;
@@ -1121,6 +1155,7 @@ h3,
   .single-hero-card,
   .single-columns,
   .flight-layer-grid,
+  .flight-layer-loadout,
   .forms-grid,
   .stack-grid,
   .roadmap-grid,

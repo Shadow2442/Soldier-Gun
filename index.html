@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="site.css?v=20260420-compat2">
 </head>
 <body>
   <div class="page-shell">
@@ -123,6 +123,16 @@
               <span><strong>Up / W</strong> more thrust</span>
               <span><strong>Down / S</strong> less thrust</span>
               <span><strong>Space</strong> fire</span>
+            </div>
+            <div class="flight-layer-loadout">
+              <label class="flight-select">
+                <span>Shot Type</span>
+                <select id="flight-weapon-family" aria-label="Select shot type"></select>
+              </label>
+              <label class="flight-select">
+                <span>Phase</span>
+                <select id="flight-weapon-phase" aria-label="Select weapon phase"></select>
+              </label>
             </div>
             <div class="flight-layer-stats">
               <div>
@@ -681,6 +691,6 @@
     <p id="lightbox-caption"></p>
   </div>
 
-  <script src="site.js"></script>
+  <script src="site.js?v=20260420-compat2"></script>
 </body>
 </html>
