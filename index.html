@@ -19,6 +19,7 @@
           <span class="brand">Soldier Gun</span>
         </div>
         <div class="top-links">
+          <a href="#flight-layer">Flight Layer</a>
           <a href="#single-release">Soundtrack</a>
           <a href="#universe">Universe</a>
           <a href="#gallery">Artwork</a>
@@ -104,6 +105,52 @@
     </header>
 
     <main>
+      <section id="flight-layer" class="section flight-layer-section">
+        <div class="section-heading">
+          <span class="eyebrow">Playable Layer</span>
+          <h2>Ship Animation Testing</h2>
+        </div>
+        <div class="flight-layer-grid">
+          <article class="flight-layer-copy glass-card">
+            <p>
+              This standalone prototype layer lets you steer the current ship sprite directly in the browser. Strafe left
+              and right, tap <strong>Space</strong> to fire, and modulate thrust with <strong>Up</strong> and
+              <strong>Down</strong> to push the boosters harder or ease them back.
+            </p>
+            <div class="flight-layer-controls">
+              <span><strong>Left / A</strong> strafe left</span>
+              <span><strong>Right / D</strong> strafe right</span>
+              <span><strong>Up / W</strong> more thrust</span>
+              <span><strong>Down / S</strong> less thrust</span>
+              <span><strong>Space</strong> fire</span>
+            </div>
+            <div class="flight-layer-stats">
+              <div>
+                <span class="flight-stat-label">Throttle</span>
+                <strong id="flight-throttle-readout">100%</strong>
+              </div>
+              <div>
+                <span class="flight-stat-label">Fire Rate</span>
+                <strong>Arcade Pulse</strong>
+              </div>
+            </div>
+          </article>
+          <div class="flight-canvas-shell glass-card">
+            <div class="flight-canvas-header">
+              <span class="eyebrow">Prototype Build</span>
+              <h3>Soulshugan Steering Test</h3>
+            </div>
+            <canvas
+              id="flight-layer-canvas"
+              class="flight-layer-canvas"
+              width="480"
+              height="640"
+              aria-label="Playable Soldier Gun prototype layer"
+            ></canvas>
+          </div>
+        </div>
+      </section>
+
       <section id="single-release" class="section single-release-section">
         <div class="section-heading">
           <span class="eyebrow">Soundtrack Release</span>
@@ -585,6 +632,14 @@
           <h2>The latest three updates stay here. Older entries move into the archive.</h2>
         </div>
         <div class="timeline">
+          <article>
+            <div class="timeline-meta">
+              <span class="timeline-date">2026-04-20 CEST</span>
+              <span class="timeline-phase">Build Phase 12</span>
+            </div>
+            <h3>Ship animation testing layer added to the website</h3>
+            <p><strong>Update:</strong> A new browser-based <strong>Ship Animation Testing</strong> section is now live on the website with a steerable Soulshugan prototype layer, white-dot starfield backdrop, keyboard firing, and thrust-driven booster intensity so the current idle and strafe animation tests can be reviewed in motion instead of only as sprite sheets and GIFs.</p>
+          </article>
           <article>
             <div class="timeline-meta">
               <span class="timeline-date">2026-04-15 CEST</span>
