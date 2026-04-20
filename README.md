@@ -51,7 +51,7 @@
 
 The repository is scaffolded for Godot 4 development. If Godot is not installed yet, install it and open this folder as a project.
 
-The public website also includes a browser-playable ship animation test layer. It currently supports:
+The public website, [shadow2442.github.io/Soldier-Gun](https://shadow2442.github.io/Soldier-Gun/), also includes a browser-playable ship animation test layer. It currently supports:
 
 - steerable ship movement and strafing
 - pulse weapon phase selection
@@ -60,21 +60,22 @@ The public website also includes a browser-playable ship animation test layer. I
 
 Latest soundtrack release work:
 
-- Stage 1 Boss A and B are now featured on the website as new soundtrack previews
+- Stage 1 Boss A and B are now featured on the [website](https://shadow2442.github.io/Soldier-Gun/) as new soundtrack previews
 - the packaged release bundle lives in `project/music/releases/SOLDIER GUN - STAGE 1 BOSS THEMES (2026 Preview)/`
 - the release archive is `soldier-gun-stage-1-boss-themes-2026-preview.zip`
 
 ## Website / Pages
 
-- Public site source lives in `website/`
-- GitHub Pages is published from the `gh-pages` branch, generated from the `website/` subtree
+- Live website: [shadow2442.github.io/Soldier-Gun](https://shadow2442.github.io/Soldier-Gun/)
+- Public site source lives in [`website/`](./website/)
+- GitHub Pages is published from the `gh-pages` branch, generated from the [`website/`](./website/) subtree
 - Root `index.html`, `site.css`, and `site.js` are kept as a local mirror/prototype surface during development
 
-If the live site needs a refresh after local changes:
+If the [live site](https://shadow2442.github.io/Soldier-Gun/) needs a refresh after local changes:
 
 1. Commit the website-facing changes on `main`
 2. Push `main`
-3. Push the `website/` subtree to `gh-pages`
+3. Push the [`website/`](./website/) subtree to `gh-pages`
 
 ## Local commands
 
