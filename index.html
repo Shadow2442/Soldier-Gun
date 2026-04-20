@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soldier Gun | Project Transmission</title>
+  <meta name="description" content="Soldier Gun is an original sci-fi vertical shooter project following Reina Solari across multiple transformation paths.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/site.css?v=20260420-compat2">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand-block">
+          <span class="eyebrow">Project Transmission</span>
+          <span class="brand">Soldier Gun</span>
+        </div>
+        <div class="top-links">
+          <a href="#flight-layer">Flight Layer</a>
+          <a href="#single-release">Soundtrack</a>
+          <a href="#universe">Universe</a>
+          <a href="#gallery">Artwork</a>
+          <a href="#audio">Audio</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#devlog">Dev Log</a>
+          <a href="#stack">Engine</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid">
+        <section class="hero-copy">
+          <p class="hero-tag">PC Engine-inspired vertical shooter</p>
+          <div class="project-status">
+            <span class="status-label">Project Status</span>
+            <div class="status-pills">
+              <span class="status-pill active">In Progress</span>
+              <span class="status-pill warning">Under Construction</span>
+            </div>
+            <p class="status-note">
+              Front-end shell, TV-based story presentation, music handling, and fullscreen behavior are actively being refined while gameplay systems move into the next major phase.
+            </p>
+          </div>
+          <h1>Reina Solari enters the cloudline war.</h1>
+          <p class="hero-body">
+            <strong>Soldier Gun</strong> is an original sci-fi shmup project about speed, transformation, atmosphere,
+            and late-arcade spectacle. The core pilot is <strong>Reina Solari (レイナ・ソラリ)</strong>, callsign
+            <strong>Valkyrie-01</strong>, flying the <strong>Soulshugan</strong> through light-path ascension,
+            machine transcendence, and abyssal corruption. The goal is to capture the force and clarity of classic
+            vertical shooters while pushing harder into transformation mythology, route-driven mood shifts, and a
+            stronger sense of universe identity. It is designed to feel like more than a stage sequence: a combat
+            transmission from a larger war, where presentation, soundtrack, and visual tone all reinforce the world
+            around the pilot.
+          </p>
+        </section>
+
+        <section class="hero-visual">
+          <div class="hero-card primary-frame">
+            <video autoplay muted loop playsinline preload="auto" aria-label="AI-generated Soldier Gun concept animation">
+              <source src="assets/video/hero-title-video.mp4" type="video/mp4">
+            </video>
+            <div class="frame-caption">
+              <span class="caption-label">Concept Animation</span>
+              <h2>AI Custom Artwork</h2>
+              <p>Decorative AI-made promo video only, not gameplay. Soldier Gun remains a 2D old-school vertical shooter.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section class="hero-description glass-card">
+        <img src="assets/artwork/character/reina-solari-profile.png" alt="Reina Solari character artwork with integrated project description and pilot profile">
+      </section>
+      <section class="hero-summary glass-card">
+        <div class="hero-summary-header">
+          <span class="eyebrow">Project Snapshot</span>
+          <h2>Creator, presentation targets, and current scope.</h2>
+        </div>
+        <p class="hero-body hero-note">
+          Created by <strong>Slim Shady</strong> with <strong>Codex</strong> as an AI development partner for design,
+          implementation, worldbuilding, and presentation.
+        </p>
+        <div class="hero-pills">
+          <span>Godot 4 Desktop Build</span>
+          <span>4:3 Presentation</span>
+          <span>Original Artwork</span>
+          <span>Reactive Soundtrack Direction</span>
+        </div>
+        <div class="hero-stats">
+          <article>
+            <span class="stat-number">8</span>
+            <span class="stat-label">Character forms in canon</span>
+          </article>
+          <article>
+            <span class="stat-number">2</span>
+            <span class="stat-label">Title atmospheres: good / evil</span>
+          </article>
+          <article>
+            <span class="stat-number">1</span>
+            <span class="stat-label">Pilot, many possible destinies</span>
+          </article>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section id="flight-layer" class="section flight-layer-section">
+        <div class="section-heading">
+          <span class="eyebrow">Playable Layer</span>
+          <h2>Ship Animation Testing</h2>
+        </div>
+        <div class="flight-layer-grid">
+          <article class="flight-layer-copy glass-card">
+            <p>
+              This standalone prototype layer lets you steer the current ship sprite directly in the browser. Strafe left
+              and right, tap <strong>Space</strong> to fire, and modulate thrust with <strong>Up</strong> and
+              <strong>Down</strong> to push the boosters harder or ease them back.
+            </p>
+            <div class="flight-layer-controls">
+              <span><strong>Left / A</strong> strafe left</span>
+              <span><strong>Right / D</strong> strafe right</span>
+              <span><strong>Up / W</strong> more thrust</span>
+              <span><strong>Down / S</strong> less thrust</span>
+              <span><strong>Space</strong> fire</span>
+            </div>
+            <div class="flight-layer-loadout">
+              <label class="flight-select">
+                <span>Shot Type</span>
+                <select id="flight-weapon-family" aria-label="Select shot type"></select>
+              </label>
+              <label class="flight-select">
+                <span>Phase</span>
+                <select id="flight-weapon-phase" aria-label="Select weapon phase"></select>
+              </label>
+            </div>
+            <div class="flight-layer-stats">
+              <div>
+                <span class="flight-stat-label">Throttle</span>
+                <strong id="flight-throttle-readout">100%</strong>
+              </div>
+              <div>
+                <span class="flight-stat-label">Fire Rate</span>
+                <strong>Arcade Pulse</strong>
+              </div>
+            </div>
+          </article>
+          <div class="flight-canvas-shell glass-card">
+            <div class="flight-canvas-header">
+              <span class="eyebrow">Prototype Build</span>
+              <h3>Soulshugan Steering Test</h3>
+            </div>
+            <canvas
+              id="flight-layer-canvas"
+              class="flight-layer-canvas"
+              width="480"
+              height="640"
+              aria-label="Playable Soldier Gun prototype layer"
+            ></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section id="single-release" class="section single-release-section">
+        <div class="section-heading">
+          <span class="eyebrow">Soundtrack Release</span>
+          <h2>Reina Solari: Hold The Line enters the system.</h2>
+        </div>
+        <div class="single-release-grid">
+          <article class="single-hero-card">
+            <div class="single-cover-stage">
+              <figure class="single-cover-primary gallery-item">
+                <img src="assets/soundtrack/single-2026/cover.png" alt="SOLDIER GUN single cover artwork for Reina Solari: Hold The Line">
+                <figcaption>Main soundtrack cover for the first official SOLDIER GUN release.</figcaption>
+              </figure>
+              <div class="glass-card single-variation-panel">
+                <div class="single-variation-header">
+                  <span class="eyebrow">Soundtrack Cover Testing</span>
+                  <h3>Alternate single states</h3>
+                </div>
+                <div class="single-cover-variants">
+                  <figure class="gallery-item">
+                    <img src="assets/soundtrack/single-2026/cover2.png" alt="Alternate SOLDIER GUN single cover variation 2">
+                    <figcaption>Variant 02: amplified poster energy and system stress.</figcaption>
+                  </figure>
+                  <figure class="gallery-item">
+                    <img src="assets/soundtrack/single-2026/cover3.png" alt="Alternate SOLDIER GUN single cover variation 3">
+                    <figcaption>Variant 03: transmission distortion and corrupted-route pressure.</figcaption>
+                  </figure>
+                  <figure class="gallery-item">
+                    <img src="assets/soundtrack/single-2026/cover4.png" alt="Alternate SOLDIER GUN single cover variation 4">
+                    <figcaption>Variant 04: full signal breakdown and CRT overload.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+            <div class="single-copy glass-card">
+              <div class="single-meta">
+                <span>SOLDIER GUN - Soundtrack Release</span>
+                <span>14.04.2026 update</span>
+                <span>by SlimShady</span>
+              </div>
+              <h3>Reina Solari: Hold The Line</h3>
+              <p class="single-subtitle">OBARAIDO NIHONGO REMIX / ULTRA REMIX</p>
+              <p>
+                We&rsquo;re proud to present the first official <strong>SOLDIER GUN</strong> soundtrack release - a high-energy,
+                multi-layered audio drop that fuses classic arcade roots with modern cyberpunk intensity, now expanded with a third full-length version.
+              </p>
+              <div class="single-actions">
+                <a class="single-action primary" href="assets/soundtrack/single-2026/soldier-gun-single-2026.zip" download>Download Full Soundtrack ZIP</a>
+                <a class="single-action" href="#single-player">Play Full Tracks</a>
+              </div>
+              <p class="single-free-note">
+                This soundtrack download is completely free, and everything else related to the SOLDIER GUN project will be free as well.
+              </p>
+              <div id="single-player" class="single-player-card">
+                <h3>Full Single Playback</h3>
+                <p class="single-player-intro">
+                  Stream both complete tracks directly on the page, or grab the ZIP archive with the full soundtrack set and cover variations.
+                </p>
+                <div class="single-track-list">
+                  <div class="single-track">
+                    <div class="single-track-header">
+                      <strong>Reina Solari - Hold The Line</strong>
+                      <span>Original Track</span>
+                    </div>
+                    <audio controls preload="none" src="assets/soundtrack/single-2026/track_01_hold_the_line.mp3"></audio>
+                  </div>
+                  <div class="single-track">
+                    <div class="single-track-header">
+                      <strong>OBARAIDO NIHONGO REMIX</strong>
+                      <span>Remix Track</span>
+                    </div>
+                    <audio controls preload="none" src="assets/soundtrack/single-2026/track_02_obaraido_nihongo_remix.mp3"></audio>
+                  </div>
+                  <div class="single-track new-track">
+                    <div class="single-track-header">
+                      <strong>OBARAIDO NIHONGO ULTRA REMIX</strong>
+                      <span><strong>NEW</strong> Track 3</span>
+                    </div>
+                    <audio controls preload="none" src="assets/soundtrack/single-2026/track_03_obaraido_nihongo_ultra_remix.mp3"></audio>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="glass-card single-release-notes">
+            <h3>SOLDIER GUN - Soundtrack Release - 13.04.2026 by SlimShady</h3>
+            <p>
+              <strong>Reina Solari: Hold The Line</strong>, the <strong>OBARAIDO NIHONGO REMIX</strong>, and the new
+              <strong>OBARAIDO NIHONGO ULTRA REMIX</strong> mark the first official soundtrack release for the project.
+              This now plays as a three-track transmission: one version rooted in bright arcade momentum, one pushing the
+              signal into overload, and one escalating that corruption into an even more unstable final form.
+            </p>
+            <p>
+              The original track captures the spirit of classic shoot 'em up games, starting with sharp forward motion before
+              expanding into something more cinematic and emotional. The remix takes that structure and tears through it with
+              industrial pressure, command-style fragments, layered voices, and a final breakdown into static. The new third
+              track pushes the release even further, acting like a hotter, more unstable transmission spike for visitors who
+              want the most extreme version of the signal.
+            </p>
+            <div class="single-columns">
+              <div>
+                <h4>Style &amp; Influences</h4>
+                <ul class="audio-influence-list">
+                  <li>Classic shoot 'em up soundtracks (PC Engine era, Gate of Thunder)</li>
+                  <li>Retro CRT and analog signal aesthetics</li>
+                  <li>Dark sci-fi ambient and cinematic storytelling</li>
+                  <li>Industrial and cyberpunk audio design</li>
+                  <li>Japanese arcade culture and command-style voice motifs</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Cover Artwork</h4>
+                <ul class="audio-influence-list">
+                  <li>Game assets from <strong>SOLDIER GUN</strong></li>
+                  <li>Original spaceship and boss designs</li>
+                  <li>Japanese poster-style typography</li>
+                  <li>Heavy glitch, distortion, and CRT-inspired overlays</li>
+                  <li>Multiple visual "system states" from clean signal to full corruption</li>
+                </ul>
+              </div>
+            </div>
+            <p class="single-closing">
+              This is not just a soundtrack. It's a signal from inside the system.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="universe" class="section split-section">
+        <div class="section-heading">
+          <span class="eyebrow">Universe Core</span>
+          <h2>A single pilot across multiple states of power.</h2>
+        </div>
+        <div class="split-grid">
+          <article class="glass-card lore-card">
+            <h3>Project Identity</h3>
+            <p>
+              Soldier Gun blends late PC Engine shooter readability with a more elaborate lore structure:
+              one ship, one heroine, multiple divergent routes. The project centers on transformation without
+              losing silhouette or identity. The ship stays recognisable. The pilot changes in energy, tone,
+              and mythic alignment.
+            </p>
+            <ul class="detail-list">
+              <li><strong>Main pilot:</strong> Reina Solari (レイナ・ソラリ)</li>
+              <li><strong>Callsign:</strong> Valkyrie-01</li>
+              <li><strong>Ship:</strong> Soulshugan</li>
+              <li><strong>Dark form:</strong> Reina Noctis (レイナ・ノクティス)</li>
+            </ul>
+          </article>
+          <article class="glass-card route-card">
+            <h3>Route Structure</h3>
+            <div class="route-lines">
+              <div><span>Light Path</span><strong>Angel Ascension</strong></div>
+              <div><span>Dark Path</span><strong>Demon / Vampire Evolution</strong></div>
+              <div><span>Corruption Path</span><strong>Zombie Instability</strong></div>
+              <div><span>Transcendence Path</span><strong>AI Singularity</strong></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section split-section">
+        <div class="section-heading">
+          <span class="eyebrow">Creator Transmission</span>
+          <h2>The project comes from a lifetime of shooter obsession.</h2>
+        </div>
+        <div class="split-grid">
+          <article class="glass-card lore-card">
+            <h3>Slim Shady</h3>
+            <img class="creator-avatar" src="https://avatars.githubusercontent.com/u/55396395?v=4" alt="GitHub avatar of Slim Shady">
+            <p>
+              <strong>Soldier Gun</strong> is created by <strong>Slim Shady</strong>, a long-time retro-game enthusiast
+              and dedicated shoot-'em-up fan whose history with the genre goes all the way back to the original
+              <strong>PC Engine</strong> era. After getting into the hardware in the late 1980s, the fascination never
+              faded. Fast arcade shooters, bold cover art, HuCard and CD releases, obscure hardware variants, and the
+              particular style of Japanese console shooters all became part of a lifelong collecting and playing habit.
+            </p>
+            <p>
+              That passion grew into a serious collector's relationship with the platform: not just the games, but the
+              machines themselves. The collection spans major PC Engine hardware including the <strong>PC Engine LT</strong>,
+              <strong>PC Engine GT</strong>, <strong>Super CD-ROM²</strong>, <strong>PC Engine Duo</strong>,
+              <strong>SuperGrafx</strong>, and other variations, alongside a near-complete library of games. The same love
+              extends to other core 16-bit systems too, especially the <strong>Mega Drive</strong>, <strong>Super Nintendo</strong>,
+              and <strong>Super Famicom</strong>. Repeated trips to Japan helped deepen that connection to the culture,
+              the hardware history, and the aesthetic roots behind this project.
+            </p>
+          </article>
+          <article class="glass-card route-card">
+            <h3>Why this project exists</h3>
+            <p>
+              Soldier Gun is not meant to be a sterile clone of an old shooter. It is a personal love letter to that
+              era, built from the perspective of someone who still actively plays, studies, and collects these systems
+              today. The goal is to carry forward the energy of PC Engine shooters while letting the presentation,
+              universe, and soundtrack evolve into something original.
+            </p>
+            <p>
+              This project is also intentionally experimental in how it is being made: <strong>Codex</strong> is part of
+              the creative process as an AI collaborator, helping translate spoken ideas into code, systems, copy,
+              structure, and production momentum. Soldier Gun is both a game universe and a proof that an AI-assisted
+              development workflow can still feel personal, obsessive, and full of human taste.
+            </p>
+            <div class="pill-cluster">
+              <span>PC Engine Collector</span>
+              <span>Shmup Lifelong Fan</span>
+              <span>Japan-Inspired Aesthetic</span>
+              <span>AI-Assisted Production</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">Transformation Matrix</span>
+          <h2>Forms currently defining the tone of the world.</h2>
+        </div>
+        <div class="forms-grid">
+          <article class="form-card active">
+            <h3>Reina Solari (レイナ・ソラリ)</h3>
+            <p>Base form. Balance, humanity, and the default combat identity.</p>
+          </article>
+          <article class="form-card">
+            <h3>Reina Aetheris</h3>
+            <p>Elite precision state. Enhanced targeting, perception, and control.</p>
+          </article>
+          <article class="form-card">
+            <h3>Reina Solaris</h3>
+            <p>Golden ascendant power route. Overcharge, burst damage, full offensive authority.</p>
+          </article>
+          <article class="form-card">
+            <h3>Reina Lumina</h3>
+            <p>Celestial salvation route. Shields, healing, and radiant energy projection.</p>
+          </article>
+          <article class="form-card evil">
+            <h3>Reina Noctis (レイナ・ノクティス)</h3>
+            <p>Abyssal sovereign route. Hellfire, rage, and destructive field pressure.</p>
+          </article>
+          <article class="form-card evil">
+            <h3>Reina Sanguis</h3>
+            <p>Crimson predation route. Control, drain, and elegant battlefield dominance.</p>
+          </article>
+          <article class="form-card corrupt">
+            <h3>Reina Blight</h3>
+            <p>Infected-core corruption route. Toxic spread, instability, and body-horror pressure.</p>
+          </article>
+          <article class="form-card machine">
+            <h3>Reina Nexus</h3>
+            <p>System override route. Hacking, digital weapons, and multi-target machine supremacy.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="gallery" class="section">
+        <div class="section-heading">
+          <span class="eyebrow">Artwork Preview</span>
+          <h2>Good-route radiance and evil-route breakdown.</h2>
+        </div>
+        <div class="gallery-switch">
+          <button class="gallery-toggle is-active" data-gallery="good">Good Pool</button>
+          <button class="gallery-toggle" data-gallery="evil">Evil Pool</button>
+        </div>
+        <div class="gallery-panel is-active" data-panel="good">
+          <div class="gallery-grid">
+            <figure class="gallery-item">
+              <img src="assets/artwork/title/good/title_good_02.png" alt="Red spaceship Soldier Gun key art">
+              <figcaption>Primary heroic title illustration with the red ship front and center.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="assets/artwork/title/good/title_good_07_lumina_glory.png" alt="Golden Reina Solari key art">
+              <figcaption>Golden close-up of Reina Solari with radiant Lumina-path energy.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="assets/artwork/title/good/title_good_08_nexus_glitch.png" alt="AI Reina title art">
+              <figcaption>Nexus glitch-art direction for the transcendence branch.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="assets/artwork/title/good/title_good_06.png" alt="Full spaceship Soldier Gun artwork">
+              <figcaption>Wide framing where the full ship silhouette is the main visual focus.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="gallery-panel" data-panel="evil">
+          <div class="gallery-grid">
+            <figure class="gallery-item">
+              <img src="assets/artwork/title/evil/title_evil_02.png" alt="Reina Noctis style title art">
+              <figcaption>Reina Noctis route mood: infernal pressure, blood moon palette, corrupted cockpit.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="assets/artwork/title/evil/title_evil_03_blight_moon.png" alt="Blight moon title art">
+              <figcaption>Blight-path contamination and undead cockpit corruption.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="assets/artwork/title/evil/title_evil_01.png" alt="Evil title art">
+              <figcaption>Dark-route apocalypse frame with blood and lunar ruin.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="audio" class="section split-section">
+        <div class="section-heading">
+          <span class="eyebrow">Soundtrack Direction</span>
+          <h2>Title music, stage music, and route-specific atmosphere.</h2>
+        </div>
+        <div class="split-grid">
+          <article class="glass-card">
+            <h3>Current music system draft</h3>
+            <p>
+              The title shell already rotates artwork and soundtrack states. The current design splits the music into
+              two atmospheres: <strong>good</strong> and <strong>evil</strong>. Good-route visuals pull from the uplifting
+              and mission-oriented soundtrack pool. Evil-route visuals are locked to darker omake and corrupted-route music.
+            </p>
+            <p>
+              The inspiration behind this direction comes from multiple sides of retro game music history: the hard-edged
+              action legacy around <strong>Turrican</strong> and <strong>Manfred Trenz</strong>, the unmistakable melodic
+              force of <strong>Yuzo Koshiro</strong>, and the kind of larger-than-life shooter scoring that made late
+              arcade and console soundtracks feel like full combat mythologies. Soldier Gun aims to absorb that energy
+              and reshape it into something personal: part PC Engine shimmer, part Mega Drive aggression, part sci-fi opera.
+            </p>
+            <div class="pill-cluster">
+              <span>Title themes</span>
+              <span>Stage themes</span>
+              <span>Endings</span>
+              <span>Instrumentals</span>
+              <span>Omake / Evil remixes</span>
+            </div>
+            <div class="audio-design-block">
+              <h3>🎧 Soundtrack &amp; Audio Design</h3>
+              <p>
+                <strong>SOLDIER GUN</strong> blends multiple audio styles to create a unique sci-fi atmosphere that supports both gameplay
+                intensity and narrative immersion.
+              </p>
+              <p>
+                The soundtrack combines retro-inspired CRT aesthetics, dark ambient soundscapes, and cyberpunk industrial elements.
+                During Story Mode, audio is designed to feel like a live transmission, featuring electrical hums, signal interference,
+                and distorted broadcast-style voices that echo themes of war-time propaganda and system control.
+              </p>
+              <p class="audio-design-intro">Musical influences include:</p>
+              <ul class="audio-influence-list">
+                <li>🎛️ Retro analog / CRT-era electronics</li>
+                <li>🌌 Dark sci-fi ambient (minimal, atmospheric tension)</li>
+                <li>⚙️ Industrial and cyberpunk sound design</li>
+                <li>📡 Military communication and transmission audio</li>
+              </ul>
+              <p>
+                Rather than traditional melodies, the audio focuses on texture, tension, and immersion, evolving from machine noise
+                into subtle musical layers — reinforcing the feeling that the player is receiving a classified signal from within
+                the game world.
+              </p>
+            </div>
+          </article>
+          <article class="glass-card track-card">
+            <h3>Featured track concepts</h3>
+            <p class="track-card-intro">
+              Use the preview controls to sample the current soundtrack direction while reading the audio design notes beside it.
+            </p>
+            <ul class="track-list">
+              <li class="track-item">
+                <strong>Soldier Gun - Title Theme 1</strong>
+                <div class="track-controls">
+                  <button class="preview-button" data-preview="assets/audio/previews/preview_title_theme_01.mp3">Play</button>
+                  <button class="stop-button" data-preview-stop disabled>Stop</button>
+                </div>
+                <span>Fixed opening theme</span>
+              </li>
+              <li class="track-item">
+                <strong>Soldier Gun - Title Theme 2</strong>
+                <div class="track-controls">
+                  <button class="preview-button" data-preview="assets/audio/previews/preview_title_theme_02.mp3">Play</button>
+                  <button class="stop-button" data-preview-stop disabled>Stop</button>
+                </div>
+                <span>Alternate main title atmosphere</span>
+              </li>
+              <li class="track-item">
+                <strong>Stage 3: Arc Vale Breach</strong>
+                <div class="track-controls">
+                  <button class="preview-button" data-preview="assets/audio/previews/preview_stage_03_arc_vale_breach.mp3">Play</button>
+                  <button class="stop-button" data-preview-stop disabled>Stop</button>
+                </div>
+                <span>Multi-part assault scoring energy</span>
+              </li>
+              <li class="track-item">
+                <strong>Stage 4: Meridian Fortress</strong>
+                <div class="track-controls">
+                  <button class="preview-button" data-preview="assets/audio/previews/preview_stage_04_meridian_fortress.mp3">Play</button>
+                  <button class="stop-button" data-preview-stop disabled>Stop</button>
+                </div>
+                <span>Carrier pressure and descent escalation</span>
+              </li>
+              <li class="track-item">
+                <strong>Stage 5: Astral Gate</strong>
+                <div class="track-controls">
+                  <button class="preview-button" data-preview="assets/audio/previews/preview_stage_05_astral_gate.mp3">Play</button>
+                  <button class="stop-button" data-preview-stop disabled>Stop</button>
+                </div>
+                <span>Orchestral and late-stage cosmic route</span>
+              </li>
+              <li class="track-item">
+                <strong>Omake: Hell on Earth</strong>
+                <div class="track-controls">
+                  <button class="preview-button" data-preview="assets/audio/previews/preview_omake_hell_on_earth.mp3">Play</button>
+                  <button class="stop-button" data-preview-stop disabled>Stop</button>
+                </div>
+                <span>Evil-pool infernal bonus soundtrack set</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="stack" class="section">
+        <div class="section-heading">
+          <span class="eyebrow">Behind The Build</span>
+          <h2>The current prototype stack.</h2>
+        </div>
+        <div class="stack-grid">
+            <article class="stack-card">
+              <h3>Engine</h3>
+              <p>Soldier Gun is being built in Godot 4, but the goal is not to make it feel like a generic modern indie engine project. The idea is to use a current toolchain to chase the speed, clarity, and screen discipline of late PC Engine and 16-bit shooter design: fixed 4:3 framing, fast response, strong sprite readability, layered presentation logic, and a structure that can eventually support route systems, transformation states, soundtrack logic, and gallery-style extras without losing that tight arcade core.</p>
+            </article>
+            <article class="stack-card">
+              <h3>Frontend shell</h3>
+              <p>The front-end shell is basically our attempt to build the kind of deluxe “special mode” presentation that retro fans always wished old shooters had more of. Instead of dropping straight into a plain menu, Soldier Gun boots into a proper command-deck interface with rotating title art, music playback, mood-sensitive presentation, and window/fullscreen behavior designed to make it feel like a real desktop release. It is part launcher, part museum display, part love letter to the ritual of starting up a favorite game.</p>
+            </article>
+            <article class="stack-card">
+              <h3>Artwork system</h3>
+              <p>The artwork system is intentionally overbuilt in the best possible nerdy way. Rather than using one static title image, the project separates visuals into good and evil pools and rotates them dynamically. That means the title presentation can swing between heroic route energy and corrupted-route menace, with the shell pairing images to matching soundtrack moods. It turns the startup screen into something closer to an attract-mode gallery, where every launch feels a little different without breaking the universe logic.</p>
+            </article>
+            <article class="stack-card">
+              <h3>Audio system</h3>
+              <p>The audio side is being treated less like “add some background tracks” and more like cataloguing a real game soundtrack line-up. Title themes, stage themes, ending themes, instrumental cuts, omake tracks, and darker alternate mixes are all being grouped and named in a way that reflects how retro fans actually think about game music. The long-term idea is that Soldier Gun should feel like the kind of project where the soundtrack itself has lore, mood identity, collector appeal, and enough structure that even the website can preview it like a miniature soundtrack archive.</p>
+            </article>
+          </div>
+      </section>
+
+      <section id="roadmap" class="section roadmap-section">
+        <div class="section-heading">
+          <span class="eyebrow">Project Roadmap</span>
+          <h2>What is locked in, what is being built now, and what still needs design decisions.</h2>
+        </div>
+        <div class="roadmap-grid">
+          <article class="roadmap-card">
+            <h3>Foundation</h3>
+            <ul class="roadmap-list">
+              <li><span class="roadmap-status done">Done</span><div><strong>Base project code created</strong><p>Godot project, repo structure, shell scripts, and source organization are in place.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Game shell created</strong><p>Window shell, command-deck flow, title presentation, music bar, and menu routing are already working.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Menu and settings system drafted</strong><p>Fullscreen, scanlines, shell controls, and front-end behavior are already defined in prototype form.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>GitHub repo and automation workflow connected</strong><p>Project files and website updates can now be synced together as part of one publishing routine.</p></div></li>
+            </ul>
+          </article>
+
+          <article class="roadmap-card">
+            <h3>Presentation Layer</h3>
+            <ul class="roadmap-list">
+              <li><span class="roadmap-status done">Done</span><div><strong>Sample title artworks created</strong><p>Good-route and evil-route image pools are live and already rotate inside the shell.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Music player and soundtrack preview system created</strong><p>The title shell and website can both present curated music states instead of static background audio.</p></div></li>
+              <li><span class="roadmap-status done">Done</span><div><strong>Initial soundtrack catalog assembled</strong><p>Title, stage, ending, instrumental, and omake tracks are now sorted into a usable structure.</p></div></li>
+              <li><span class="roadmap-status doing">In Progress</span><div><strong>Artwork expansion and curation</strong><p>More key art, route-specific imagery, and stronger category organization are still being added.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Gallery function</strong><p>The Omake folder and future art categories will become a browseable in-game and website gallery later.</p></div></li>
+            </ul>
+          </article>
+
+          <article class="roadmap-card">
+            <h3>Gameplay Decisions</h3>
+            <ul class="roadmap-list">
+              <li><span class="roadmap-status doing">Next Major Milestone</span><div><strong>Start the actual game engine layer</strong><p>The next big phase is moving from shell/presentation into enemy logic, stage flow, scoring, and real combat systems.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Define ship feel</strong><p>Speed, acceleration, response, hit feel, and how Soulshugan should move need to be tuned deliberately.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Design weapon system</strong><p>We still need to lock weapon types, power-up behavior, support units, bombs, and route-specific combat identity.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Create sample combat assets</strong><p>Ships, enemies, bullets, explosions, bosses, HUD layout, and score display all need first-pass production art.</p></div></li>
+              <li><span class="roadmap-status todo">Planned</span><div><strong>Define scoring and options</strong><p>High-score logic, caravan-style pacing, difficulty, lives, and option behaviors still need formal design decisions.</p></div></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="devlog" class="section progress-section">
+        <div class="section-heading">
+          <span class="eyebrow">Devlog Shape</span>
+          <h2>The latest three updates stay here. Older entries move into the archive.</h2>
+        </div>
+        <div class="timeline">
+          <article>
+            <div class="timeline-meta">
+              <span class="timeline-date">2026-04-20 CEST</span>
+              <span class="timeline-phase">Build Phase 12</span>
+            </div>
+            <h3>Ship animation testing layer added to the website</h3>
+            <p><strong>Update:</strong> A new browser-based <strong>Ship Animation Testing</strong> section is now live on the website with a steerable Soulshugan prototype layer, white-dot starfield backdrop, keyboard firing, and thrust-driven booster intensity so the current idle and strafe animation tests can be reviewed in motion instead of only as sprite sheets and GIFs.</p>
+          </article>
+          <article>
+            <div class="timeline-meta">
+              <span class="timeline-date">2026-04-15 CEST</span>
+              <span class="timeline-phase">Build Phase 11</span>
+            </div>
+            <h3>Project structure cleaned up and website/archive flow refined</h3>
+            <p><strong>Update:</strong> The project folder structure was reorganized into a cleaner split between <strong>game</strong>, <strong>project</strong>, <strong>website</strong>, and <strong>tools</strong>, the Godot project was smoke-tested and repaired after the move, the website navigation was tightened up, and the devlog now rotates older updates into a dedicated archive page instead of keeping the entire history on the front page.</p>
+          </article>
+          <article>
+            <div class="timeline-meta">
+              <span class="timeline-date">2026-04-14 CEST</span>
+              <span class="timeline-phase">Build Phase 10</span>
+            </div>
+            <h3>Hero section rebuilt with new Reina Solari artwork and concept media</h3>
+            <p><strong>Update:</strong> The website intro has been restructured again, replacing the old hero text panel with a new Reina Solari image card, keeping the AI concept video as a decorative showcase element, and tightening the top-of-page presentation into a cleaner, more graphic-forward project landing section.</p>
+          </article>
+          <article>
+            <div class="timeline-meta">
+              <span class="timeline-date">2026-04-14 CEST</span>
+              <span class="timeline-phase">Build Phase 09</span>
+            </div>
+            <h3>AI concept video added as the new hero visual</h3>
+            <p><strong>Update:</strong> The website hero section now uses a custom AI-made concept animation based on Soldier Gun cover artwork. It is clearly labeled as decorative promo material rather than gameplay footage, and the source clip has also been archived in the project artwork folders as concept video reference.</p>
+          </article>
+        </div>
+        <div class="archive-link-card glass-card">
+          <span class="eyebrow">Older Updates</span>
+          <h3>Open the full archive for earlier project logs.</h3>
+          <p>The archive page keeps the older updates in the same visual style, with the newest archived entry shown first.</p>
+          <a class="single-action primary archive-link-button" href="archive.html">Open Older Updates</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close artwork preview">×</button>
+    <img id="lightbox-image" alt="">
+    <p id="lightbox-caption"></p>
+  </div>
+
+  <script src="scripts/site.js?v=20260420-compat2"></script>
+</body>
+</html>
