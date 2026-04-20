@@ -14,3 +14,10 @@ This folder is the public-facing release surface for the project website.
 - `scripts/site.js`: browser flight prototype, pulse weapon phases, ship thrusters, and Web Audio effects
 - `styles/site.css`: public site styling plus the flight-layer controls and layout
 - `assets/generated/`: ship sprite sheets used by the browser prototype
+- `assets/audio/previews/`: featured website music previews, including the new Stage 1 Boss A/B pair
+
+## Music release sync
+
+- New soundtrack previews should be surfaced at the top of the featured track concepts list
+- Matching release bundles live in `project/music/releases/`
+- GitHub Pages publishes this folder, while GitHub Releases can attach the packaged soundtrack zip separately

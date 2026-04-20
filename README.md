@@ -38,6 +38,7 @@
 - `project/analysis/`: reverse-engineering notes and review outputs
 - `project/references/`: curated captures and study material
 - `project/music/`: soundtrack drafts, previews, and release packages
+- `project/music/releases/`: packaged soundtrack drops and GitHub-ready release assets
 
 ## First milestones
 
@@ -56,6 +57,12 @@ The public website also includes a browser-playable ship animation test layer. I
 - pulse weapon phase selection
 - approved idle / forward / reverse / strafe thruster visuals
 - synced muzzle flashes, shot audio, and thruster audio cues
+
+Latest soundtrack release work:
+
+- Stage 1 Boss A and B are now featured on the website as new soundtrack previews
+- the packaged release bundle lives in `project/music/releases/SOLDIER GUN - STAGE 1 BOSS THEMES (2026 Preview)/`
+- the release archive is `soldier-gun-stage-1-boss-themes-2026-preview.zip`
 
 ## Website / Pages
 
