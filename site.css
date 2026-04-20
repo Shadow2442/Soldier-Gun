@@ -78,6 +78,14 @@ body::before {
   margin-bottom: 32px;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .brand-block,
 .section-heading {
   display: flex;
@@ -109,6 +117,8 @@ h3,
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .top-links a {
@@ -117,7 +127,15 @@ h3,
   transition: color 160ms ease;
 }
 
-.top-links .repo-link {
+.topbar-utility {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.topbar-utility .repo-link {
   display: inline-flex;
   align-items: center;
   padding: 8px 14px;
@@ -128,7 +146,7 @@ h3,
   box-shadow: 0 8px 20px rgba(27, 53, 112, 0.22);
 }
 
-.top-links .repo-link:hover {
+.topbar-utility .repo-link:hover {
   color: #ffffff;
   border-color: rgba(255,255,255,0.24);
   background: linear-gradient(135deg, rgba(113, 214, 255, 0.26), rgba(121, 134, 255, 0.2));
@@ -280,13 +298,14 @@ h3,
   font-size: 0.92rem;
 }
 
-.hero-pills .visitor-counter-pill {
+.visitor-counter-pill {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   background: linear-gradient(135deg, rgba(113, 214, 255, 0.16), rgba(121, 134, 255, 0.1));
   border-color: rgba(113, 214, 255, 0.18);
   color: #f0f7ff;
+  white-space: nowrap;
 }
 
 .visitor-counter-pill strong {
@@ -1255,6 +1274,12 @@ h3,
 
   .topbar {
     display: grid;
+  }
+
+  .topbar-actions,
+  .topbar-utility,
+  .top-links {
+    justify-content: flex-start;
   }
 
   .track-card .track-list li,

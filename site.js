@@ -427,27 +427,20 @@ for (const stopButton of stopButtons) {
 }
 
 async function loadVisitorCount() {
-  const isLocalPreview = window.location.protocol === "file:";
-  if (isLocalPreview) {
-    visitorCounterPill?.setAttribute("data-counter-mode", "preview");
-    visitorCountElement.textContent = "Live on GitHub Pages";
-    visitorCounterPill?.setAttribute("title", "Local preview mode does not increment the live visitor counter.");
-  } else {
-    visitorCounterPill?.setAttribute("data-counter-mode", "live");
-    visitorCounterPill?.setAttribute("title", "Live visitor counter for the GitHub Pages site.");
-    if (visitorCountBadge) {
-      const badgeUrl = `${VISITOR_COUNTER_CONFIG.endpoint}?page_id=${encodeURIComponent(VISITOR_COUNTER_CONFIG.pageId)}`;
-      visitorCountBadge.hidden = false;
-      visitorCountBadge.src = badgeUrl;
-      visitorCountBadge.loading = "lazy";
-      visitorCountBadge.decoding = "async";
-      visitorCountBadge.addEventListener("error", () => {
-        visitorCounterPill?.setAttribute("data-counter-state", "error");
-        visitorCounterPill?.setAttribute("data-counter-mode", "preview");
-        visitorCountElement.textContent = "Counter unavailable";
-        visitorCountBadge.hidden = true;
-      }, { once: true });
-    }
+  visitorCounterPill?.setAttribute("data-counter-mode", "live");
+  visitorCounterPill?.setAttribute("title", "Live visitor counter for the GitHub Pages site.");
+  if (visitorCountBadge) {
+    const badgeUrl = `${VISITOR_COUNTER_CONFIG.endpoint}?page_id=${encodeURIComponent(VISITOR_COUNTER_CONFIG.pageId)}`;
+    visitorCountBadge.hidden = false;
+    visitorCountBadge.src = badgeUrl;
+    visitorCountBadge.loading = "lazy";
+    visitorCountBadge.decoding = "async";
+    visitorCountBadge.addEventListener("error", () => {
+      visitorCounterPill?.setAttribute("data-counter-state", "error");
+      visitorCounterPill?.setAttribute("data-counter-mode", "preview");
+      visitorCountElement.textContent = "Counter unavailable";
+      visitorCountBadge.hidden = true;
+    }, { once: true });
   }
 }
 
