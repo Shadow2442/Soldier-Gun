@@ -280,6 +280,40 @@ h3,
   font-size: 0.92rem;
 }
 
+.hero-pills .visitor-counter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(113, 214, 255, 0.16), rgba(121, 134, 255, 0.1));
+  border-color: rgba(113, 214, 255, 0.18);
+  color: #f0f7ff;
+}
+
+.visitor-counter-pill strong {
+  font-family: "Oxanium", sans-serif;
+  font-size: 0.92rem;
+  color: #fff7cf;
+}
+
+.visitor-counter-pill img {
+  height: 20px;
+  width: auto;
+  border-radius: 999px;
+}
+
+.visitor-counter-pill[data-counter-mode="live"] strong {
+  display: none;
+}
+
+.visitor-counter-pill[data-counter-mode="preview"] {
+  background: linear-gradient(135deg, rgba(255, 191, 84, 0.14), rgba(255, 255, 255, 0.05));
+  border-color: rgba(255, 191, 84, 0.22);
+}
+
+.visitor-counter-pill[data-counter-state="error"] strong {
+  color: #ffd08f;
+}
+
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -8,6 +8,9 @@ const lightboxClose = document.getElementById("lightbox-close");
 const previewButtons = document.querySelectorAll(".preview-button");
 const stopButtons = document.querySelectorAll(".stop-button");
 const previewPlayer = new Audio();
+const visitorCountElement = document.getElementById("visitor-count");
+const visitorCounterPill = document.getElementById("visitor-counter-pill");
+const visitorCountBadge = document.getElementById("visitor-count-badge");
 let activePreviewButton = null;
 let activeStopButton = null;
 const flightCanvas = document.getElementById("flight-layer-canvas");
@@ -17,6 +20,10 @@ const weaponPhaseSelect = document.getElementById("flight-weapon-phase");
 const flightFrameCache = new Map();
 let flightProcessingMode = "pixel";
 const FLIGHT_ASSET_VERSION = "20260420-compat2";
+const VISITOR_COUNTER_CONFIG = Object.freeze({
+  endpoint: "https://visitor-badge.laobi.icu/badge",
+  pageId: "shadow2442.Soldier-Gun-website",
+});
 
 // Final locked ship tuning approved in-browser. If this ever changes, it should be
 // a deliberate design decision instead of an accidental tweak to loose numbers.
@@ -377,6 +384,10 @@ function resetPreviewState() {
 
 previewPlayer.addEventListener("ended", resetPreviewState);
 
+if (visitorCountElement) {
+  loadVisitorCount();
+}
+
 for (const playButton of previewButtons) {
   playButton.addEventListener("click", () => {
     const stopButton = playButton.nextElementSibling;
@@ -413,6 +424,31 @@ for (const stopButton of stopButtons) {
     previewPlayer.currentTime = 0;
     resetPreviewState();
   });
+}
+
+async function loadVisitorCount() {
+  const isLocalPreview = window.location.protocol === "file:";
+  if (isLocalPreview) {
+    visitorCounterPill?.setAttribute("data-counter-mode", "preview");
+    visitorCountElement.textContent = "Live on GitHub Pages";
+    visitorCounterPill?.setAttribute("title", "Local preview mode does not increment the live visitor counter.");
+  } else {
+    visitorCounterPill?.setAttribute("data-counter-mode", "live");
+    visitorCounterPill?.setAttribute("title", "Live visitor counter for the GitHub Pages site.");
+    if (visitorCountBadge) {
+      const badgeUrl = `${VISITOR_COUNTER_CONFIG.endpoint}?page_id=${encodeURIComponent(VISITOR_COUNTER_CONFIG.pageId)}`;
+      visitorCountBadge.hidden = false;
+      visitorCountBadge.src = badgeUrl;
+      visitorCountBadge.loading = "lazy";
+      visitorCountBadge.decoding = "async";
+      visitorCountBadge.addEventListener("error", () => {
+        visitorCounterPill?.setAttribute("data-counter-state", "error");
+        visitorCounterPill?.setAttribute("data-counter-mode", "preview");
+        visitorCountElement.textContent = "Counter unavailable";
+        visitorCountBadge.hidden = true;
+      }, { once: true });
+    }
+  }
 }
 
 if (flightCanvas) {
